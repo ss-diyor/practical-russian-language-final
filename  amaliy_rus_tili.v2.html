@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Final Exam</title>
+<script>
+(function(){var t=null;try{t=localStorage.getItem('rt-theme')}catch(e){}
+if(!t)t=window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+document.documentElement.setAttribute('data-theme',t)})();
+</script>
+<style>
+:root{--fs:1;--bg:#f4f6fb;--card:#fff;--tx:#1c2333;--mu:#6a7388;--ln:#dfe3ee;--ac:#4361ee;--acs:#e8ecff;--ok:#16a34a;--oks:#dcf5e5;--no:#dc2626;--nos:#fde4e4;--mark:#ffe58a}
+:root[data-theme="dark"]{--bg:#12151d;--card:#1c212d;--tx:#e8ebf3;--mu:#97a0b5;--ln:#2c3343;--ac:#7f97ff;--acs:#252d4d;--ok:#4ade80;--oks:#143023;--no:#f87171;--nos:#3a1c1f;--mark:#6b5a10}
+*{box-sizing:border-box}
+html{font-size:calc(16px*var(--fs))}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5;font-size:1rem}
+.w{max-width:720px;margin:0 auto;padding:0 14px 60px}
+.tb{position:sticky;top:0;z-index:30;background:var(--bg);display:flex;justify-content:flex-end;gap:6px;padding:10px 0}
+.ib{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--ln);background:var(--card);color:var(--tx);border-radius:11px;padding:0}
+.ib:hover{border-color:var(--ac);color:var(--ac)}.ib.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.ib:disabled{opacity:.4;cursor:default}
+.ib svg,.ic svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ic{display:inline-flex;vertical-align:-4px;margin-right:4px}.ic svg{width:1.1em;height:1.1em}
+#pExit{display:none}.ib.on #pUser{display:none}.ib.on #pExit{display:block}#sun{display:none}:root[data-theme="dark"] #sun{display:block}:root[data-theme="dark"] #moon{display:none}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:20px}
+h1{font-size:1.4rem;margin:0 0 4px}h2{font-size:1.1rem;margin:0 0 10px}
+.mu{color:var(--mu);font-size:.9rem}
+.mode{border:2px solid var(--ln);border-radius:14px;padding:16px;margin-top:14px}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:12px 18px;font-weight:600}
+:root[data-theme="dark"] .btn{color:#0f1220}
+.btn.sec{background:var(--acs);color:var(--ac)}
+:root[data-theme="dark"] .btn.sec{color:var(--ac)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.full{width:100%;margin-top:10px}
+input[type=number],input[type=search]{width:100px;font:inherit;padding:10px;border:2px solid var(--ln);border-radius:10px;background:var(--bg);color:var(--tx)}
+input[type=search]{width:100%;padding:12px 14px;outline:none}input[type=search]:focus{border-color:var(--ac)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.chip{background:var(--acs);color:var(--ac);border:0;border-radius:8px;padding:5px 12px;font-weight:600}
+.err{color:var(--no);font-size:.9rem;min-height:1.3em;margin-top:6px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:.9rem;color:var(--mu)}
+.bar{height:8px;background:var(--ln);border-radius:8px;overflow:hidden;margin-bottom:14px}.bar i{display:block;height:100%;background:var(--ac);width:0;transition:width .25s}
+.q{font-size:1.15rem;font-weight:600;margin:4px 0 14px}
+.o{display:flex;gap:10px;width:100%;text-align:left;background:var(--card);color:var(--tx);border:2px solid var(--ln);border-radius:12px;padding:12px 14px;margin-bottom:9px}
+.o:hover:not(:disabled){border-color:var(--ac)}.o b{min-width:1.3em;color:var(--ac)}
+.o.sel{border-color:var(--ac);background:var(--acs)}
+.o.ok{border-color:var(--ok);background:var(--oks)}.o.no{border-color:var(--no);background:var(--nos)}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:8px}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin-top:16px}
+.dot{width:30px;height:30px;border-radius:8px;border:1px solid var(--ln);background:var(--card);color:var(--mu);font-size:.75rem;padding:0}
+.dot.a{background:var(--acs);color:var(--ac);border-color:var(--ac)}
+.dot.ok{background:var(--ok);color:#fff;border-color:var(--ok)}.dot.no{background:var(--no);color:#fff;border-color:var(--no)}
+.dot.c{outline:2px solid var(--ac);outline-offset:1px}
+.score{text-align:center}.big{font-size:3rem;font-weight:800;line-height:1.1}
+.stats{display:flex;justify-content:center;gap:22px;margin:10px 0 14px;flex-wrap:wrap}
+.stats div{font-weight:600}.g{color:var(--ok)}.r{color:var(--no)}
+.tabs{display:flex;gap:8px;margin:18px 0 10px;flex-wrap:wrap}
+.rv{border:1px solid var(--ln);border-left:6px solid var(--ln);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:var(--card)}
+.rv.c{border-left-color:var(--ok)}.rv.w{border-left-color:var(--no)}
+.rv p{margin:2px 0 6px;font-weight:600}.rv div{font-size:.95rem}
+.so{padding:7px 12px;border:1px solid var(--ln);border-radius:8px;margin-top:6px;font-size:.95rem}
+.so b{display:inline-block;min-width:1.5em}
+.so.ok{background:var(--oks);border-color:var(--ok);color:var(--ok);font-weight:600}
+.so.hit{outline:2px solid var(--ac)}
+.tag{font-size:.75rem;background:var(--acs);color:var(--ac);border-radius:6px;padding:1px 7px;margin-right:4px;white-space:nowrap}
+mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
+label.t{display:flex;gap:8px;align-items:center;margin-top:14px;font-size:.92rem}
+.empty{text-align:center;color:var(--mu);padding:30px 0}
+input[type=text]{width:100%;font:inherit;padding:12px 14px;border:2px solid var(--ln);border-radius:10px;background:var(--bg);color:var(--tx);outline:none;margin-top:6px}
+input[type=text]:focus{border-color:var(--ac)}
+.fl{display:block;margin-top:16px;font-weight:600;font-size:.95rem}
+.who{display:flex;align-items:center;gap:8px;color:var(--mu);font-size:.9rem;margin-bottom:12px}
+.av{width:56px;height:56px;border-radius:50%;background:var(--acs);color:var(--ac);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;flex:none}
+.ph{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.ph>div:nth-child(2){flex:1;min-width:140px}
+.ph h1{margin:0}
+.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.kp div{background:var(--bg);border:1px solid var(--ln);border-radius:12px;padding:10px;text-align:center}
+.kp b{display:block;font-size:1.3rem}.kp span{font-size:.8rem;color:var(--mu)}
+.sc{overflow-x:auto;border:1px solid var(--ln);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.9rem}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--ln);white-space:nowrap}
+th{color:var(--mu);font-weight:600;font-size:.8rem;background:var(--bg)}tr:last-child td{border-bottom:0}
+.pill{display:inline-block;border-radius:999px;padding:1px 10px;font-weight:700;font-size:.85rem}
+.pill.ok{background:var(--oks);color:var(--ok)}.pill.no{background:var(--nos);color:var(--no)}.pill.mid{background:var(--acs);color:var(--ac)}
+.prow{display:flex;align-items:center;gap:10px;border:1px solid var(--ln);background:var(--card);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.prow>div:first-child{flex:1;min-width:0}.prow b{display:block;overflow:hidden;text-overflow:ellipsis}
+.sm{padding:7px 12px;font-size:.9rem}
+h2.sec{margin:22px 0 10px}
+[hidden]{display:none!important}
+
+input[type=password],textarea{width:100%;font:inherit;padding:12px 14px;border:2px solid var(--ln);border-radius:10px;background:var(--bg);color:var(--tx);outline:none;margin-top:6px}
+textarea{resize:vertical;min-height:80px}input[type=password]:focus,textarea:focus{border-color:var(--ac)}
+.num{display:inline-block;background:var(--ac);color:#fff;border-radius:7px;padding:0 8px;font-size:.85rem;font-weight:600;flex:none}
+:root[data-theme="dark"] .num{color:#0f1220}
+.abar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.note{margin-top:10px;font-size:.85rem;color:var(--mu);background:var(--bg);border:1px solid var(--ln);border-radius:10px;padding:8px 12px}
+.msg{min-height:1.3em;margin-top:8px;font-size:.9rem;color:var(--ok)}
+.arow{display:flex;align-items:center;gap:10px;border:1px solid var(--ln);background:var(--card);border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.arow:hover{border-color:var(--ac)}.arow .at{flex:1;min-width:0}
+.aq{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:600;font-size:.95rem}
+.ck{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:.92rem}
+.eo{border:1px solid var(--ln);border-radius:12px;padding:4px 12px 12px;margin-top:12px}
+.ib.fl{width:36px;height:36px;flex:none}
+.tag.mod{background:var(--nos);color:var(--no)}.tag.nw{background:var(--oks);color:var(--ok)}
+
+.ib.lg{width:auto;padding:0 12px;gap:6px;font-weight:700;font-size:.8rem}.ib.lg svg{width:18px;height:18px}
+</style></head><body><div class="w">
+
+<div class="tb">
+<button class="ib lg" id="bLang" aria-label="Language"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span id="lgTxt"></span></button>
+<button class="ib" id="bProfile" data-al="aProfile"><svg id="pUser" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><svg id="pExit" viewBox="0 0 24 24"><path d="M15 21h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-4"/><path d="m8 17-5-5 5-5"/><path d="M3 12h12"/></svg></button>
+<button class="ib" id="bSearch" data-al="aSearch"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+<button class="ib" id="fMinus" data-al="aFMinus"><svg viewBox="0 0 24 24"><path d="M3 18 8 6l5 12M5 14h6"/><path d="M16 12h6"/></svg></button>
+<button class="ib" id="fPlus" data-al="aFPlus"><svg viewBox="0 0 24 24"><path d="M3 18 8 6l5 12M5 14h6"/><path d="M19 9v6M16 12h6"/></svg></button>
+<button class="ib" id="bTheme" data-al="aTheme">
+<svg id="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+<svg id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+</button>
+</div>
+
+<section id="start" class="card">
+<div class="who" id="who"></div>
+<h1 data-i="title" id="title1" style="user-select:none"></h1>
+<div class="mu" id="sub"></div>
+<div class="mode"><h2 data-i="modeA"></h2><div class="mu" data-i="modeAd"></div>
+<button class="btn full" id="goFull" data-i="goFull"></button></div>
+<div class="mode"><h2 data-i="modeB"></h2><div class="mu" data-i="modeBd"></div>
+<div class="row" style="margin-top:10px"><input type="number" id="cnt" min="1" value="30" inputmode="numeric"><span class="mu" id="rng"></span></div>
+<div class="chips" id="chips"></div><div class="err" id="err"></div>
+<button class="btn full" id="goRand" data-i="goRand"></button></div>
+<label class="t"><input type="checkbox" id="instant" checked> <span data-i="instant"></span></label>
+</section>
+
+<section id="quiz" hidden>
+<div class="top"><span id="mode"></span><span id="pos"></span></div>
+<div class="bar"><i id="pb"></i></div>
+<div class="card"><div class="q" id="qt"></div><div id="opts"></div>
+<div class="nav"><button class="btn sec" id="prev" data-i="back"></button><button class="btn" id="next"></button></div></div>
+<div class="dots" id="dots"></div>
+<button class="btn sec full" id="quit" data-i="quit"></button>
+</section>
+
+<section id="result" hidden>
+<div class="card score"><div class="mu" data-i="yourResult"></div><div class="big" id="pct"></div><div id="msg" class="mu"></div><div id="saved" class="mu" style="margin-top:6px"></div>
+<div class="stats">
+<div class="g"><span class="ic"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span><span id="nc"></span> <span data-i="correct"></span></div>
+<div class="r"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></span><span id="nw"></span> <span data-i="wrong"></span></div>
+<div class="mu"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></span><span id="ns"></span> <span data-i="skipped"></span></div></div>
+<div class="row" style="justify-content:center"><button class="btn" id="again" data-i="newTest"></button><button class="btn sec" id="retryW" data-i="retry"></button></div></div>
+<div class="tabs"><button class="chip" data-f="all" data-i="fAll"></button><button class="chip" data-f="w" data-i="fWrong"></button><button class="chip" data-f="c" data-i="fCorrect"></button></div>
+<div id="review"></div>
+</section>
+
+<section id="search" hidden>
+<input type="search" id="sq" data-ph="sPh" autocomplete="off">
+<div class="mu" id="sinfo" style="margin:8px 0 12px;min-height:1.3em"></div>
+<div id="slist"></div>
+</section>
+
+<section id="setup" class="card" hidden>
+<h1 id="setupTitle"></h1>
+<div class="mu" id="setupSub"></div>
+<label class="fl"><span data-i="fName"></span><input type="text" id="pName" maxlength="60" autocomplete="name" placeholder="Aliyev Vali"></label>
+<label class="fl"><span data-i="fGroup"></span><input type="text" id="pGroup" maxlength="20" autocomplete="off" placeholder="XTA-26/5"></label>
+<div class="err" id="pErr"></div>
+<div class="row"><button class="btn" id="pSave" data-i="save"></button><button class="btn sec" id="pCancel" data-i="cancel" hidden></button></div>
+</section>
+
+<section id="profile" hidden>
+<div class="card">
+<div class="ph"><div class="av" id="pAv"></div><div><h1 id="pTitle"></h1><div class="mu" id="pGrp"></div></div>
+<button class="btn sec sm" id="pEdit" data-i="editProfile"></button></div>
+<div class="kp"><div><b id="kA"></b><span data-i="attempts"></span></div><div><b id="kAvg"></b><span data-i="average"></span></div><div><b id="kBest"></b><span data-i="best"></span></div></div>
+</div>
+<h2 class="sec" data-i="history"></h2>
+<div id="hist"></div>
+<button class="btn sec sm" id="hClear" style="margin-top:10px" data-i="clearH" hidden></button>
+<h2 class="sec" data-i="profiles"></h2>
+<div id="plist"></div>
+<button class="btn sec full" id="pNew" data-i="addProfile"></button>
+</section>
+
+<section id="admin" hidden>
+<div id="aGate" class="card" hidden>
+<h2 data-i="admTitle"></h2>
+<label class="fl"><span data-i="pinLbl"></span><input type="password" id="gIn" autocomplete="off"></label>
+<div class="err" id="gErr"></div>
+<div class="row"><button class="btn" id="gGo" data-i="pinEnter"></button><button class="btn sec" id="gExit" data-i="admBack"></button></div>
+</div>
+<div id="aPanel">
+<div class="card">
+<div class="row" style="justify-content:space-between"><h1 style="font-size:1.3rem;margin:0" data-i="admTitle"></h1><button class="btn sec sm" id="aExit" data-i="admBack"></button></div>
+<div class="mu" id="aSum" style="margin-top:6px"></div>
+<div class="note" data-i="admNote"></div>
+<div class="abar">
+<button class="btn sm" id="aAdd" data-i="addQ"></button>
+<button class="btn sm" id="aSite" data-i="dlSite"></button>
+<button class="btn sec sm" id="aExp" data-i="expJson"></button>
+<button class="btn sec sm" id="aImp" data-i="impJson"></button>
+<button class="btn sec sm" id="aRst" data-i="resetAll"></button>
+</div>
+<input type="file" id="aFile" accept=".json,application/json" hidden>
+<div class="msg" id="aMsg"></div>
+<div class="row" style="margin-top:6px"><input type="password" id="pinIn" data-ph="pinPh" autocomplete="off" style="max-width:240px;margin-top:0"><button class="btn sec sm" id="pinSet" data-i="pinSet"></button><button class="btn sec sm" id="pinOff" data-i="pinOff" hidden></button></div>
+</div>
+<div style="margin-top:14px"><input type="search" id="aSq" data-ph="aSqPh" autocomplete="off">
+<div class="chips"><button class="chip" data-af="all" data-i="fAll"></button><button class="chip" data-af="mod" data-i="fMod"></button><button class="chip" data-af="flag" data-i="fFlag"></button></div></div>
+<div id="aList" style="margin-top:10px"></div>
+</div>
+</section>
+
+<section id="aedit" class="card" hidden>
+<h1 id="eTitle" style="font-size:1.3rem"></h1>
+<label class="fl"><span data-i="lblQ"></span><textarea id="eQ" rows="3"></textarea></label>
+<div class="eo"><label class="fl"><span id="eL0"></span><input type="text" id="eO0" maxlength="400"></label><label class="ck"><input type="checkbox" id="eC0"> <span data-i="lblCorr"></span></label></div>
+<div class="eo"><label class="fl"><span id="eL1"></span><input type="text" id="eO1" maxlength="400"></label><label class="ck"><input type="checkbox" id="eC1"> <span data-i="lblCorr"></span></label></div>
+<div class="eo"><label class="fl"><span id="eL2"></span><input type="text" id="eO2" maxlength="400"></label><label class="ck"><input type="checkbox" id="eC2"> <span data-i="lblCorr"></span></label></div>
+<div class="eo"><label class="fl"><span id="eL3"></span><input type="text" id="eO3" maxlength="400"></label><label class="ck"><input type="checkbox" id="eC3"> <span data-i="lblCorr"></span></label></div>
+
+<div class="err" id="eErr"></div>
+<div class="abar">
+<button class="btn" id="eSave" data-i="eSave"></button>
+<button class="btn" id="eSaveNext" data-i="eSaveNext"></button>
+<button class="btn sec" id="eBack" data-i="eBack"></button>
+</div>
+<div class="abar">
+<button class="btn sec sm" id="eFlag"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span><span data-i="eFlagT"></span></button>
+<button class="btn sec sm" id="eReset" data-i="eReset" hidden></button>
+<button class="btn sec sm" id="eDel" data-i="eDel" style="color:var(--no)"></button>
+</div>
+</section>
+</div>
+
+<script id="bankData" type="application/json">[{"n": 1, "q": "Продолжите фразу. Глагол - это часть речи, которая обозначает:", "o": ["действие предмета", "признак предмета", "предмет", "признак другого признака"], "c": [0]}, {"n": 2, "q": "Определите вид обстоятельства в данном предложении: Он не пришёл из-за болезни.", "o": ["места", "времени", "причины", "цели"], "c": [2]}, {"n": 3, "q": "Какое из предложений является повествовательным?", "o": ["Не отрекайтесь от мечты!", "Что день грядущий нам готовит?", "Пушку осмотреть да хорошенько вычистить!", "А.С. Пушкин является основоположником русской классической литературы."], "c": [3]}, {"n": 4, "q": "Укажите сложноподчинённое предложение с придаточным цели.", "o": ["Я пригласил вас, чтобы сообщить о радостном событии.", "Я огорчился настолько, насколько это только было возможно.", "Пошел дождь, поэтому нам пришлось уйти.", "Только что вы остановитесь, он начинает длинную тираду."], "c": [0]}, {"n": 5, "q": "Найдите предложение с придаточным причины", "o": ["Мы обязаны знать Пушкина наизусть для того, чтобы знать родной язык во всём его изобилии.", "Он предпочёл прогулку в линейке, с тем чтоб не разлучаться с милою своей соседкой.", "Такая густая трава росла только по берегам озера, потому что здесь достаточно было влаги.", "Раз уж вы согласились, так уж нельзя вам отказываться."], "c": [2]}, {"n": 6, "q": "Репортаж, интервью, дебаты, очерк – это слова:", "o": ["научного стиля", "публицистического стиля", "разговорного стиля", "официально-делового стиля"], "c": [1]}, {"n": 7, "q": "Делопроизводство – это:", "o": ["отрасль деятельности, которая не обеспечивает документирование и организацию работы с офисными документами", "отрасль деятельности, которая обеспечивает документирование и организацию работы с офисными документами", "сфера деятельности по обеспечению организации офисными документами", "нет правильного ответа"], "c": [1]}, {"n": 8, "q": "Регистрация документа в делопроизводстве включает в себя:", "o": ["проставление даты", "проставление регистрационного номера", "запись необходимых сведений о документе в регистрационной форме", "все вышеперечисленное"], "c": [3]}, {"n": 9, "q": "Какому жанру научного стиля соответствует определение: Это краткое изложение в письменном виде содержания научного труда.", "o": ["Реферат", "Аннотация", "Конспект", "Доклад"], "c": [0]}, {"n": 10, "q": "Сколько букв в русском алфавите:", "o": ["30", "34", "33", "31"], "c": [2]}, {"n": 11, "q": "Укажите, какой союз надо вставить вместо точек Надо относиться к порученному делу так, ….с тебя брали пример.", "o": ["Что", "Чтобы", "когда", "Как"], "c": [1]}, {"n": 12, "q": "Укажите, какое это предложение по цели высказывания: Ура! Лето наступило!", "o": ["Вопросительное", "Побудительное", "Повествовательное", "восклицательное"], "c": [2]}, {"n": 13, "q": "Найдите строку, где указаны существительные только среднего рода?", "o": ["окно, сумка, корень", "костёр, время, книга", "яблоко, море, письмо", "перемена, поле, река"], "c": [2]}, {"n": 14, "q": "Укажите имя числительное:", "o": ["Десять", "Семерка", "Утроить", "Пятиэтажный"], "c": [0]}, {"n": 15, "q": "Найдите существительное во множественном числе:", "o": ["Кружки", "Мыло", "Вешалка", "Автобус"], "c": [0]}, {"n": 16, "q": "Найдите глагол, стоящий в форме будущего времени", "o": ["разожгу, расскажу", "строил, читал", "кушаю, читаю", "рисую, играю"], "c": [0]}, {"n": 17, "q": "Найдите строку, где указаны существительные только мужского рода", "o": ["дом, река, мышь", "костёр, время, книга", "урок, институт, друг", "друг, костёр, река"], "c": [2]}, {"n": 18, "q": "Найдите строку, где указаны существительные только женского рода", "o": ["ручка, сестра, мышь", "костёр, время, книга", "тетрадь, море, друг", "друг, кофта, река"], "c": [0]}, {"n": 19, "q": "Вставьте подходящие слова. Я люблю читать ….", "o": ["Телепередачи", "произведения А.С. Пушкина", "Футбол", "Музыка"], "c": [1]}, {"n": 20, "q": "Сколько самостоятельных частей речи в русском языке?", "o": ["Восемь", "Шесть", "Десять", "Девять"], "c": [1]}, {"n": 21, "q": "Константин Ушинский – это …", "o": ["выдающийся русский химик", "выдающийся русский педагог", "выдающийся русский физик", "выдающийся русский изобретатель"], "c": [1]}, {"n": 22, "q": "Служебные части речи – это…", "o": ["наречие", "имя прилагательное", "имя числительное", "предлоги, союзы, частицы"], "c": [3]}, {"n": 23, "q": "Найдите глагол, стоящий в форме настоящего времени:", "o": ["Разожгу", "Строить", "Кушаю", "Писал"], "c": [2]}, {"n": 24, "q": "Изучил постановку женского образования и составил учебник по педагогике:", "o": ["М. В. Ломоносов", "К. Ушинский", "Павел Третьяков", "А.С. Пушкин"], "c": [1]}, {"n": 25, "q": "Найдите глагол прошедшего времени", "o": ["Верю", "Думала", "буду готовить", "Спою"], "c": [1]}, {"n": 26, "q": "Вставьте нужный союз: Я не купил этот телефон, … он очень дорогой.", "o": ["поэтому", "потому что", "если", "чтобы"], "c": [1]}, {"n": 27, "q": "Найдите словосочетание с числительным:", "o": ["«тройка» за ответ", "утроить усилия", "трёхэтажный дом", "третий по списку"], "c": [3]}, {"n": 28, "q": "Используется в неофициальной обстановке при общении со знакомыми людьми.", "o": ["разговорный стиль", "художественный стиль", "официально-деловой стиль", "публицистический стиль"], "c": [0]}, {"n": 29, "q": "Стиль, в котором слово воздействует на читателя с помощью художественных образов:", "o": ["Разговорный", "Публицистический", "официально-деловой", "Художественный"], "c": [3]}, {"n": 30, "q": "На какие вопросы отвечают наречия:", "o": ["какой? каков? чей?", "кто? что? кем?", "как? где? сколько?", "что делать? что сделать?"], "c": [2]}, {"n": 31, "q": "Публицистический стиль используется для:", "o": ["газетных статей", "Заявлений", "Рефератов", "Инструкций"], "c": [0]}, {"n": 32, "q": "Определите стиль текста: Имя прилагательное часть речи, которая обозначает признак предмета.", "o": ["Разговорный", "Научный", "Публицистический", "официально-деловой"], "c": [1]}, {"n": 33, "q": "Стиль, который используется для написания уставов учреждений, указов руководящих органов.", "o": ["публицистический", "разговорный", "научный", "официально-деловой"], "c": [3]}, {"n": 34, "q": "Стиль договоров, актов, доверенностей относится к …", "o": ["научному", "публицистическому", "художественному", "официально-деловому"], "c": [3]}, {"n": 35, "q": "Слова: заявление, резолюция, протокол используются в стиле:", "o": ["Разговорный", "Научный", "официально-деловой", "Публицистический"], "c": [2]}, {"n": 36, "q": "Князь Юрий Долгорукий основал в 1147 году город …", "o": ["Москву", "Санкт-Петербург", "Тулу", "Вологду"], "c": [0]}, {"n": 37, "q": "Какие документы используются для передачи информации на расстояние:", "o": ["акты, протоколы", "заявления, объяснительные", "письма, телеграммы", "указания, распоряжения"], "c": [2]}, {"n": 38, "q": "Укажите строку, в которой все существительные женского рода.", "o": ["молодёжь, картофель, буфет", "вестибюль, картошка, метро", "ладонь, простыня, полотенце", "тень, мозоль, потеря"], "c": [3]}, {"n": 39, "q": "У какого существительного неверно образована форма множественного числа?", "o": ["учитель — учителя", "мастер — мастера", "торт — торты", "доктор — докторы"], "c": [3]}, {"n": 40, "q": "Укажите строку, в которой все существительные являются неодушевлёнными.", "o": ["царство, журнал, лётчик, царица", "сила, государь, читатель, воин", "звёзды, иней, Отечество, равнина", "клён, хлеб, тренер, лиса"], "c": [2]}, {"n": 41, "q": "Укажите, к какому виду текстов официально-делового стиля относится документ, дающий кому-либо право действовать от имени лица или организации, его выдавших.", "o": ["договор", "расписка", "доверенность", "протокол"], "c": [2]}, {"n": 42, "q": "В какой строке записаны окончания имени прилагательного мужского рода?", "o": ["–ой, -ий, -ый", "–ой, -ые, ие", "ой, -ая, -яя", "ой, -ее, -ое"], "c": [0]}, {"n": 43, "q": "Укажите имя прилагательное:", "o": ["бег", "побежал", "беговая", "мои"], "c": [2]}, {"n": 44, "q": "Укажите имя прилагательное множественного числа:", "o": ["весёлая", "грустный", "солнечные", "белое"], "c": [2]}, {"n": 45, "q": "В какой строке записаны прилагательные – синонимы?", "o": ["смелый – трусливый", "ласковый – нежный", "мягкий- твёрдый", "глупый – светлый"], "c": [1]}, {"n": 46, "q": "В каком предложении есть антонимы?", "o": ["Общительный, доброжелательный ребёнок понравился всем.", "Девочка радовалась и улыбалась, получив хорошую оценку.", "Цветы и кустарники разрослись очень густо.", "Незнакомцы встретили нас дружелюбно, а не враждебно."], "c": [3]}, {"n": 47, "q": "Какая пара слов не является синонимами?", "o": ["чуткость — душевность", "говорить — произносить", "симпатичный — привлекательный", "счастье — горе"], "c": [3]}, {"n": 48, "q": "Укажите, к какому виду текстов официально-делового стиля относится документ с подписью, подтверждающий получение чего-либо.", "o": ["Расписка", "Заявление", "Договор", "Доверенность"], "c": [0]}, {"n": 49, "q": "Укажите, к какому виду текстов официально-делового стиля относится официальное письменное или устное сообщение о результатах своей деятельности, работе.", "o": ["Акт", "Устав", "Отчёт", "Расписка"], "c": [2]}, {"n": 50, "q": "Выберите антонимы, которые обозначают временные отношения:", "o": ["Внутри-снаружи", "Днём-ночью", "Дорого-дёшево", "Весело-грустно"], "c": [1]}, {"n": 51, "q": "Вставьте вместо точек нужную форму глагола: Многие школьники хотят … в университете.", "o": ["будут учиться", "учиться", "учится", "будут изучать"], "c": [1]}, {"n": 52, "q": "Что такое заявление?", "o": ["Описание своей жизни", "Документ, в котором излагается просьба, жалоба или предложение.", "Разбор и оценка работы.", "Краткое изложение содержания книги или статьи."], "c": [1]}, {"n": 53, "q": "Рассказы, повести, романы - какой это стиль?", "o": ["публицистический", "научный", "художественный", "официально-деловой"], "c": [2]}, {"n": 54, "q": "У какого стиля такая характеристика высказывания: точность, логичность, доказательность?", "o": ["публицистический", "научный", "художественный", "официально-деловой"], "c": [1]}, {"n": 55, "q": "У какого стиля основная функция – общение:", "o": ["публицистический", "художественный", "официально-деловой", "разговорный"], "c": [3]}, {"n": 56, "q": "Имя существительное — это …", "o": ["служебная часть речи", "часть речи, которая обозначает признак предмета", "второстепенный член предложения", "самостоятельная часть речи, которая обозначает предмет и отвечает на вопросы кто? что?"], "c": [3]}, {"n": 57, "q": "Укажите строку, в которой все существительные являются неодушевлёнными.", "o": ["город, жизнь, Родина, избушка", "борьба, стена, царь, поэт", "остров, площадь, мальчик, медведь", "сердце, страна, друг, зайчонок"], "c": [0]}, {"n": 58, "q": "Укажите строку, в которой все существительные женского рода.", "o": ["молодёжь, картофель, буфет", "вестибюль, картошка, метро", "ложь, соль, вата", "ладонь, простыня, полотенце"], "c": [2]}, {"n": 59, "q": "Каким снег не может быть?", "o": ["Белым", "Искристым", "Теплым", "Хрустящим"], "c": [2]}, {"n": 60, "q": "Какая часть речи, как правило, употребляется с именем прилагательным?", "o": ["Имя существительное", "Имя числительное", "Глагол", "Наречие"], "c": [0]}, {"n": 61, "q": "Укажите верное высказывание:", "o": ["Глагол – это самостоятельная часть речи, которая обозначает признак предмета", "Глагол – это служебная часть речи.", "Глагол – это самостоятельная часть речи, которая обозначает предмет", "Глагол – это самостоятельная часть речи, которая обозначает действие предмета."], "c": [3]}, {"n": 62, "q": "Укажите строку, в которой записаны все глаголы в инфинитиве.", "o": ["клади, беги, читать", "отнести, играть, промочила", "бежать, промочить, идти.", "лечь, заводит, напишешь."], "c": [2]}, {"n": 63, "q": "Что такое автобиография?", "o": ["Описание своей жизни", "Документ, в котором излагается просьба, жалоба или предложение.", "Разбор и оценка работы.", "Краткое изложение содержания книги или статьи."], "c": [0]}, {"n": 64, "q": "Какие бумаги относятся к официально-деловому стилю?", "o": ["учебник, реферат, рецензия", "заявление, доверенность, автобиография", "роман, рассказ, повесть", "журнал, газета, репортаж"], "c": [1]}, {"n": 65, "q": "Укажите строку, в которой записаны все глаголы в форме будущего времени:", "o": ["Бежишь, ответила, буду искать", "Прилетят, будем ловить, расскажем", "Моет, сядут, пишешь.", "Напишу, пишу, читали"], "c": [1]}, {"n": 66, "q": "Найдите глагол, стоящий в форме будущего времени:", "o": ["построю", "строить", "кушаю", "сжевал"], "c": [0]}, {"n": 67, "q": "Какого стиля речи не существует в русском языке:", "o": ["разговорного", "художественного", "словесного", "научного"], "c": [2]}, {"n": 68, "q": "В каком варианте слова являются синонимами?", "o": ["добро, зло", "бежать, мчатся", "мягкий, твёрдый", "умный, глупый"], "c": [1]}, {"n": 69, "q": "Что такое этикет?", "o": ["беседа двух лиц", "правила речевого поведения", "размышление", "правила правописания"], "c": [1]}, {"n": 70, "q": "Продолжите фразу «Лексика изучает …", "o": ["слово как основную единицу языка и его словарный состав.", "звуки речи", "предложения и способы сочетания слов внутри предложения.", "части речи."], "c": [0]}, {"n": 71, "q": "Укажите, к какому разряду относятся выделенные в предложении слова: Обращаться с языком кое-как – значит и мыслить кое-как: неточно, приблизительно, неверно.", "o": ["Синонимы", "Антонимы", "Омонимы", "многозначные слова"], "c": [0]}, {"n": 72, "q": "Определите, в каком варианте даны заимствованные слова?", "o": ["берег, город, молоко", "ладонь, корова, дочь", "снег, сын, мать", "халат, флешка, автобус"], "c": [3]}, {"n": 73, "q": "Слова, различные по написанию и звучанию, но одинаковые или близкие по значению – это:", "o": ["Антонимы", "Синонимы", "Омонимы", "Паронимы"], "c": [1]}, {"n": 74, "q": "Какой синоним можно употребить к слову «диалект»?", "o": ["Новизна", "Говор", "Интонация", "Жаргон"], "c": [1]}, {"n": 75, "q": "Выберите правильное утверждение:", "o": ["Омонимы — это слова, одинаковые по написанию или произношению, но различные по значению.", "Антонимы - это слова, одинаковые по написанию или произношению, но различные по значению.", "Синонимы – это слова, одинаковые по написанию или произношению, но различные по значению.", "Омонимы – это слова, различные по написанию и звучанию, но тождественные или близкие по значению."], "c": [0]}, {"n": 76, "q": "Укажите ряд, в котором перечислены только имена существительные:", "o": ["нести, летом, туманы, ребята", "звёзды, корзина, корабль, песня", "луна, румяные, книги, иллюстрация", "лекарство, двойка, они, кузнечик"], "c": [1]}, {"n": 77, "q": "Укажите, какой признак относится к имени числительному:", "o": ["обозначает количество предметов при счете", "обозначает действие предмета", "обозначает предмет", "обозначает признак предмета"], "c": [0]}, {"n": 78, "q": "Укажите ряд, в котором перечислены только одушевленные имена существительные", "o": ["рыбаки, спортсмены, медведь, дети.", "дерево, города, кинофильмом, друг", "календарь, мостики, мальчишками, лето", "каникулы, соревнования, следы, рыбки"], "c": [0]}, {"n": 79, "q": "Укажите, какое утверждение верно:", "o": ["написала – глагол, прошедшее время, женский род", "убегал – глагол, настоящее время, мужской род", "ждали – глагол, прошедшее время, единственное число", "думаю – глагол, прошедшее время, единственное число"], "c": [0]}, {"n": 80, "q": "Что нужно делать, чтобы обогатить свой словарный запас?", "o": ["ходить в музей", "учить правила", "много писать", "много читать"], "c": [3]}, {"n": 81, "q": "Укажите ряд, в котором перечислены только неодушевленные имена существительные:", "o": ["друзья, память, недотрога, задачки", "сообщение, шорох, гардероб, огоньки", "театр, велосипед, юноша, месяц", "фонарь, сторож, молодость, трава"], "c": [1]}, {"n": 82, "q": "Какие слова пишутся и звучат по-разному, но имеют близкое значение?", "o": ["антонимы", "омонимы", "паронимы", "синонимы"], "c": [3]}, {"n": 83, "q": "Какая наука изучает лексику?", "o": ["Лексикон", "Лексикография", "Лексикология", "Лексикознание"], "c": [2]}, {"n": 84, "q": "Найдите строку, в которой даны только имена прилагательные:", "o": ["трудный, главное, белизна, синеть", "прозрачный, надёжный, желтый, мамин", "чудесный, жадность, красный, пурпурный", "прозрачность, оранжевый, верность, твой"], "c": [1]}, {"n": 85, "q": "Имя прилагательное – часть речи, которая обозначает:", "o": ["предмет", "признак предмета", "действие предмета", "состояние предмета"], "c": [1]}, {"n": 86, "q": "В каком году родился А.С. Пушкин?", "o": ["1789", "1798", "1797", "1799"], "c": [3]}, {"n": 87, "q": "По своему лексическому значению слова делятся на:", "o": ["сложные и простые", "однородные и неоднородные", "однозначные и многозначные", "склоняемые и несклоняемые"], "c": [2]}, {"n": 88, "q": "Укажите ошибку.", "o": ["мой друг", "моё дело", "мой тетрадь", "моя кровать."], "c": [2]}, {"n": 89, "q": "Поставьте правильный вопрос к выделенному слову: Его портфель стоит на стуле.", "o": ["чья?", "чьи?", "чьё?", "чей"], "c": [3]}, {"n": 90, "q": "Какой союз нужно употребить на месте пропуска в предложении: … завтра пойдёт дождь, соревнования по конному спорту состоятся.", "o": ["Когда", "Несмотря на то что", "Чтобы", "Хотя"], "c": [3]}, {"n": 91, "q": "В каком предложении на месте пропуска нельзя употребить предлог \u003cu>в\u003c/u>?", "o": ["Я живу … Андижане.", "Я работаю … университете.", "Я иду … улице.", "Я учусь … академическом лицее."], "c": [2]}, {"n": 92, "q": "Какой глагол нужно употребить на месте пропуска в предложении Я часто … на автобусе.", "o": ["Езжу", "Хожу", "Иду", "Еду"], "c": [0]}, {"n": 93, "q": "В каком предложении на месте пропуска нужно употребить предлог около?", "o": ["… нашего дома растут сосны.", "Вы получили благодарность … помощь.", "… со мною сидит мой сын.", "Мой брат учится … медицинском институте."], "c": [0]}, {"n": 94, "q": "В каком случае выделенное слово употреблено в переносном значении?", "o": ["холодная вода", "холодные руки", "холодный взгляд", "холодный камень"], "c": [2]}, {"n": 95, "q": "В каком примере употреблены антонимы?", "o": ["Близок локоть, да не укусишь.", "Рука коротка, да ноготок длинный.", "На улице идёт сильный дождь.", "Но вместо твёрдой цели во всём была неясность, путаница."], "c": [1]}, {"n": 96, "q": "Укажите предложение с союзом.", "o": ["Сыр выпал – с ним была плутовка такова.", "Анвар пришел домой и лег спать.", "Книга – источник знаний.", "Я спешу в город."], "c": [1]}, {"n": 97, "q": "Что такое рецензия?", "o": ["Описание своей жизни", "Документ, в котором излагается просьба, жалоба или предложение.", "Разбор и оценка работы.", "Краткое изложение содержания книги или статьи."], "c": [2]}, {"n": 98, "q": "Кто является автором стихотворения «Я помню чудное мгновенье…»", "o": ["М.Ю. Лермонтов", "С.А. Есенин", "Л. Н. Толстой.", "А. С. Пушкин."], "c": [3]}, {"n": 99, "q": "Употребите вместо точек нужный предлог: Работать в читальном зале … учебником.", "o": ["Из", "С", "В", "по"], "c": [1]}, {"n": 100, "q": "Какое прилагательное можно вставить вместо точек: Посмотри! Это … здание университета.", "o": ["Новый", "Новая", "новое", "новые"], "c": [2]}, {"n": 101, "q": "Вставьте вместо точек нужную букву: Друзья любили поговорить (о чём?) о политик…, искусств..., культур… .", "o": ["-а", "– и", "- е", "-у"], "c": [2]}, {"n": 102, "q": "Определите значение данных фразеологизмов: Рукой подать; в двух шагах.", "o": ["Близко", "Рядом", "Далеко", "Быстро"], "c": [0]}, {"n": 103, "q": "Сказуемое – это…", "o": ["часть речи", "главный член предложения", "второстепенный член предложения", "служебная часть речи"], "c": [1]}, {"n": 104, "q": "Употребите вместо точек подходящее по смыслу существительное: Оказывая помощь друг другу, люди постоянно сплачиваются в одно целое – ….", "o": ["Коллектив", "Отдел", "Союз", "организацию"], "c": [0]}, {"n": 105, "q": "Вставьте вместо точек нужный союз: Тренер требовал, …спортсмены соблюдали строгий режим.", "o": ["если", "что", "когда", "чтобы"], "c": [3]}, {"n": 106, "q": "Выделите повествовательное предложение:", "o": ["Возьми тёплую кофту.", "Сегодня чудесная погода.", "Какие у тебя планы на сегодня?", "Ура, я поступила в институт!"], "c": [1]}, {"n": 107, "q": "Укажите, в каком предложении подлежащее выражено существительным?", "o": ["Другие отошли в сторону", "Они летели через море", "Студент провалил экзамен", "Я приеду завтра"], "c": [2]}, {"n": 108, "q": "В каком варианте слова являются синонимами?", "o": ["правда – ложь", "хороший – плохой", "грусть – радость", "толстый – полный"], "c": [3]}, {"n": 109, "q": "Укажите словосочетание, в котором прилагательное имеет прямое значение", "o": ["твёрдый металл", "золотые руки", "ласковый ветер", "светлая голова"], "c": [0]}, {"n": 110, "q": "Употребите вместо точек подходящее по смыслу слово: Нарушить …человека.", "o": ["образование", "настроение", "права", "характер"], "c": [2]}, {"n": 111, "q": "Определите, какой ряд прилагательных характеризует внешность человека:", "o": ["смуглый, высокий, кареглазый", "низкий, добросовестный, худой", "опытный, волевой, отважный", "высокий, деликатный, грустный"], "c": [0]}, {"n": 112, "q": "Что является основным архитектурным памятником в древнем городе Бухара?", "o": ["Минарет Калян", "Мечеть Биби-Ханым", "Регистан", "Гур-Эмир"], "c": [0]}, {"n": 113, "q": "В каком древнем городе Узбекистана находится знаменитый комплекс Регистан?", "o": ["Бухара", "Самарканд", "Ташкент", "Хива"], "c": [1]}, {"n": 114, "q": "Как называется дорога, связавшая Восток с Европой?", "o": ["Великий звездный путь", "Великая китайская стена", "Великий шёлковый путь", "Великий млечный путь"], "c": [2]}, {"n": 115, "q": "Какая река протекает через Санкт-Петербург?", "o": ["Нева", "Москва-река", "Волга", "Ока"], "c": [0]}, {"n": 116, "q": "Как называются средние профессиональные учебные заведения в Узбекистане?", "o": ["Лицеи и колледжи", "Университеты", "Академии", "Институты"], "c": [0]}, {"n": 117, "q": "Что изучает орфография?", "o": ["правильное произношение слов", "словарный состав языка", "правильное написание слов", "звуковой строй языка"], "c": [2]}, {"n": 118, "q": "Определите род имён существительных: неряха, обжора, сирота.", "o": ["женский род", "общий род", "мужской род", "средний род"], "c": [1]}, {"n": 119, "q": "Сколько разрядов существует у местоимений?", "o": ["3", "5", "6", "9"], "c": [3]}, {"n": 120, "q": "В каком ряду все слова являются глаголами?", "o": ["выписал, дом, куплю, забыт", "построен, берег, сшит, нарисовала", "одет, смел, съел, сходите", "выдержишь, дам, отбил, сотри"], "c": [3]}, {"n": 121, "q": "Стеклянная ваза, деревянный стул, железная ручка – к какому разряду прилагательных относятся эти слова?", "o": ["к притяжательным прилагательным", "к качественным прилагательным", "к относительным прилагательным", "нет правильного ответа"], "c": [2]}, {"n": 122, "q": "Определите составное числительное:", "o": ["Десять", "Семнадцать", "тридцать восемь", "один"], "c": [2]}, {"n": 123, "q": "Выберите правильную форму определений к слову «зеркало»:", "o": ["Мой, твой, наш, ваш", "Моя, твоя, наша, ваша", "Мои, твои, наши, ваши", "Моё, твоё, наше, ваше"], "c": [3]}, {"n": 124, "q": "У какого стиля такая характеристика высказывания: образность, выразительность?", "o": ["Художественный", "Разговорный", "Деловой", "Научный"], "c": [0]}, {"n": 125, "q": "У какого стиля такая характеристика высказывания: строгость, точность, логичность?", "o": ["Научный стиль", "Художественный стиль", "Публицистический стиль", "Разговорный стиль"], "c": [0]}, {"n": 126, "q": "Учебники, лекции, доклады – определите, какой это стиль?", "o": ["Научный стиль", "Художественный стиль", "Деловой стиль", "Разговорный стиль"], "c": [0]}, {"n": 127, "q": "Кремль находится в центре…", "o": ["города", "в городе", "городом", "в городах"], "c": [0]}, {"n": 128, "q": "В каком из словосочетаний употреблено наречие:", "o": ["вручить подарок", "спелые ягоды", "быть уверенным", "вымыть начисто"], "c": [3]}, {"n": 129, "q": "Какой из следующих глаголов стоит в форме прошедшего времени?", "o": ["Пишу", "Написал", "Буду писать", "Пишут"], "c": [1]}, {"n": 130, "q": "В каком лице стоит глагол “говоришь”?", "o": ["в 1-м лице", "во 2-м лице", "в 3-м лице", "в неопределённой форме"], "c": [1]}, {"n": 131, "q": "Что называется инфинитивом?", "o": ["Форма глагола, обозначающая завершённость действия", "Исходная (начальная) форма глагола", "Форма глагола, указывающая на время действия", "Форма глагола, изменяющаяся по числам и лицам"], "c": [1]}, {"n": 132, "q": "В каком из предложений глагол стоит в будущем времени?", "o": ["Он читал книгу.", "Я буду писать письмо.", "Мы уже начали работать.", "Она пишет доклад."], "c": [1]}, {"n": 133, "q": "Определите род имён существительных: умница, плакса.", "o": ["женский род", "общий род", "мужской род", "средний род"], "c": [1]}, {"n": 134, "q": "Что изучает орфоэпия?", "o": ["правильное произношение слов", "смысл слова", "правильное написание слов", "нет правильного ответа"], "c": [0]}, {"n": 135, "q": "Часть речи, которая обозначает признак предмета и отвечает на вопросы какой? чей? называется…", "o": ["имя существительное", "имя прилагательное", "глагол", "местоимение"], "c": [1]}, {"n": 136, "q": "Заявления, указания, отчёты – какой это стиль?", "o": ["Художественный", "Разговорный", "Официально-деловой", "Научный"], "c": [2]}, {"n": 137, "q": "Пять, тридцать один, сто – какие это числительные?", "o": ["порядковые", "указательные", "собирательные", "количественные"], "c": [3]}, {"n": 138, "q": "Конкурс — состязание, хобби — увлечение. Эти слова…", "o": ["синонимы", "антонимы", "омонимы", "многозначные слова"], "c": [0]}, {"n": 139, "q": "В каком ряду даны только наречия времени?", "o": ["вблизи, сюда, рядом", "хорошо, плохо, весело", "вчера, утром, вечером", "везде, всюду, здесь"], "c": [2]}, {"n": 140, "q": "В каком словосочетании нет неологизма?", "o": ["Использование гаджетов", "Греческая мифология", "Дорогой девайс", "Новый вайб"], "c": [1]}, {"n": 141, "q": "Укажите слово, которое является числительным:", "o": ["первый", "большой", "писать", "красивый"], "c": [0]}, {"n": 142, "q": "В каком из предложений есть порядковое числительное?", "o": ["Мы подошли к дому номер два.", "У меня есть пять яблок.", "Сегодня пятница.", "Это второй этаж."], "c": [3]}, {"n": 143, "q": "Укажите порядковое числительное:", "o": ["пять", "сотый", "два", "семьдесят"], "c": [1]}, {"n": 144, "q": "Какая форма числительного является сложной?", "o": ["шестьдесят", "пятый", "один", "сто"], "c": [0]}, {"n": 145, "q": "В чём различие между архаизмами и историзмами?", "o": ["Это синонимичные термины", "Архаизмы обозначают уже вышедшие из употребления слова, а историзмы имеют синонимы в современном языке", "Историзмы обозначают уже вышедшие из употребления слова, а архаизмы имеют синонимы в современном языке", "Историзмы никогда не существовали в языке, а архаизмы существовали"], "c": [2]}, {"n": 146, "q": "Какой раздел науки о языке изучает синонимы, антонимы и омонимы?", "o": ["Стилистика", "Морфемика", "Орфография", "Лексикология"], "c": [3]}, {"n": 147, "q": "В каком году основан Чирчикский государственный педагогический университет?", "o": ["в 2016 году", "в 2017 году", "в 2018 году", "в 2015 году"], "c": [1]}, {"n": 148, "q": "Какой город называли «Жемчужиной Востока»?", "o": ["Самарканд", "Бухара", "Хива", "Ташкент"], "c": [0]}, {"n": 149, "q": "Какой город называют северной столицей России?", "o": ["Москва", "Санкт-Петербург", "Екатеринбург", "Волгоград"], "c": [1]}, {"n": 150, "q": "Где прошли детство и юность Амира Тимура?", "o": ["в Самарканде", "в Ташкенте", "в Кеше", "в Бухаре"], "c": [2]}, {"n": 151, "q": "Что такое антонимы?", "o": ["противоположные по значению слова", "слова, входящие в состав того или иного языка", "близкие по значению слова", "многозначные слова"], "c": [0]}, {"n": 152, "q": "В каком году и кем была основана Москва?", "o": ["в 1147 году князем Юрием Долгоруким", "в 1700 году Петром Первым", "в 1148 году князем Иваном III", "в 1150 году князем Юрием Долгоруким"], "c": [0]}, {"n": 153, "q": "Слова, близкие по значению, но разные по звучанию и написанию – это…", "o": ["Синонимы", "Антонимы", "Омонимы", "Паронимы"], "c": [0]}, {"n": 154, "q": "Чем выражается подлежащее в данном предложении: Семеро одного не ждут.", "o": ["Глагол", "имя существительное", "Числительным", "Местоимение"], "c": [2]}, {"n": 155, "q": "Вставьте подходящий по смыслу вопрос: Саша возвращается в Екатеринбург?", "o": ["у кого?", "куда?", "где?", "когда?"], "c": [1]}, {"n": 156, "q": "Вставьте подходящее по смыслу слово: Антон играет в футбол.", "o": ["Хорошие", "хорошо", "Хорошая", "Хороший"], "c": [1]}, {"n": 157, "q": "Я отмечал Новый год ... .", "o": ["родные братья", "с родными братьями", "родным братьям", "родных братьев"], "c": [1]}, {"n": 158, "q": "Определите вид обстоятельства в данном предложении: Он прилетел из Бухары.", "o": ["Времени", "места", "Причины", "Цели"], "c": [1]}, {"n": 159, "q": "Фильм начинается ...", "o": ["семь часов", "семь часов назад", "в семь часов", "с семи часов"], "c": [2]}, {"n": 160, "q": "Каникулы начнутся ... .", "o": ["неделю тому назад", "неделя", "неделю назад", "через неделю"], "c": [3]}, {"n": 161, "q": "Определите вид обстоятельства в данном предложении: Он не пришёл из-за болезни.", "o": ["Места", "Времени", "причины", "Цели"], "c": [2]}, {"n": 162, "q": "Вместо точек вставьте подходящий по смыслу союз: Учитель попросил Анвара, ... он собрал однокурсников.", "o": ["Что", "как", "чтобы", "Который"], "c": [2]}, {"n": 163, "q": "Как называется дорога, связавшая Восток с Европой?", "o": ["Великий звездный путь", "Великая китайская стена", "Великий шёлковый путь", "Великий млечный путь"], "c": [2]}, {"n": 164, "q": "Укажите ряд существительных, обозначающих названия профессий:", "o": ["капуста, картофель, виноград", "бережливость, уверенность, терпение", "архитектор, переводчица, машинист.", "скромный, вежливый, храбрый"], "c": [2]}, {"n": 165, "q": "Существительные какого ряда употребляются только во множественном числе?", "o": ["золото, малина, молоко;", "весы, шашки, очки;", "вежливость, активность, честность;", "посуда, мебель, одежда."], "c": [1]}, {"n": 166, "q": "Пойдем в парк, сегодня очень ... день.", "o": ["Хорошие", "Хорошая", "Хорошо", "хороший"], "c": [3]}, {"n": 167, "q": "Укажите ошибку.", "o": ["твой брат", "твоя сестра", "твой дядя", "твоя дедушка."], "c": [3]}, {"n": 168, "q": "Какое существительное можно вставить вместо точек: Борис купил швейцарские ....", "o": ["Машина", "Шоколад", "Сувенир", "часы"], "c": [3]}, {"n": 169, "q": "В каком ряду даны только наречия времени?", "o": ["вблизи, сюда", "хорошо, плохо, весело", "вчера, утром, вечером", "везде, всюду, здесь"], "c": [2]}, {"n": 170, "q": "Слова, имеющие несколько лексических значений?", "o": ["Четырехзначные", "Однозначные", "Двузначные", "многозначные"], "c": [3]}, {"n": 171, "q": "Переведите предложение на родной язык: Я уважаю своего друга.", "o": ["Men dostimni yahshi koraman", "Men do`stimni hurmat qilaman", "Do`stim meni hurmat qiladi", "Dostim meni yahshi koradi"], "c": [1]}, {"n": 172, "q": "Найдите правильный перевод слова «инициативный».", "o": ["Epchil", "Uyatchan", "Namunali", "Tashabbuskor"], "c": [3]}, {"n": 173, "q": "Вставьте нужный предлог в предложении: Он работает ... институте.", "o": ["На", "В", "Из", "Под"], "c": [1]}, {"n": 174, "q": "Как называются слова «новый-старый»?", "o": ["омонимы", "однокоренные", "синонимы", "антонимы"], "c": [3]}, {"n": 175, "q": "Укажите предложение, в котором употреблено личное местоимение.", "o": ["Это мой дом.", "Мы идем в театр.", "Никто не захотел пойти за ним.", "Её школа находится возле дома."], "c": [1]}, {"n": 176, "q": "На уроке мы читали текст об истории ... .", "o": ["Россия", "России", "из России", "в России"], "c": [1]}, {"n": 177, "q": "Морфология – это:", "o": ["раздел русского языка, изучающий состав слова", "раздел русского языка, изучающий правила правописания слов", "раздел русского языка, изучающий слово как часть речи", "раздел русского языка, изучающий нормы произношения"], "c": [2]}, {"n": 178, "q": "Все части речи делятся:", "o": ["Самостоятельные и служебные", "Самостоятельные и знаменательные", "Служебные и междометия", "Грамматические и неграмматические"], "c": [0]}, {"n": 179, "q": "Укажите ряд, в котором даны только одушевленные существительные:", "o": ["абажур, боксер, ваза", "груша, дом, ель", "моряк, народ, одноклассник", "пирог, покойник, погибший"], "c": [2]}, {"n": 180, "q": "Укажите ряд, в котором даны только неодушевленные существительные:", "o": ["Атлет, болото, ведьма", "Грузин, дагестанец, доска,", "Еж, енот, ерш", "армия, стая, табун"], "c": [3]}, {"n": 181, "q": "Определите ряд с вещественными существительными:", "o": ["Поросенок, утка, пенал", "колбаса, студень, кошка", "сметана, ветчина, бензин", "все перечисленное"], "c": [2]}, {"n": 182, "q": "Укажите ряд, в котором правильно определен род существительных:", "o": ["Шампунь, тюль, овощ – мужской род", "Шампунь, тюль, овощ – женский род", "Шампунь, тюль, овощ – средний род", "Шампунь, тюль, овощ – общий род"], "c": [0]}, {"n": 183, "q": "Это раздел русского языка, который изучает слово как часть речи:", "o": ["Орфоэпия,", "Орфография", "Морфология", "Морфемика"], "c": [2]}, {"n": 184, "q": "К самостоятельным частям речи относятся слова:", "o": ["с лексическим значением", "члены предложения", "к ним можно поставить вопрос", "все ответы верны"], "c": [3]}, {"n": 185, "q": "Укажите ряд, в котором даны отвлеченные существительные:", "o": ["молоко, хлеб, масло", "вода, цемент, соль", "счастье, дружба, синева", "хоккей, сани, ножницы"], "c": [2]}, {"n": 186, "q": "Укажите ряд, в котором даны собирательные существительные:", "o": ["Детвора, человек, люди", "листья, народ, дерево", "бензин, сахар, молодежь", "студенчество, крестьянство, орешник"], "c": [3]}, {"n": 187, "q": "Имя прилагательное - это:", "o": ["самостоятельная часть речи, которая обозначает признак предмета", "самостоятельная часть речи, которая обозначает признаки действия", "самостоятельная часть речи, которая обозначает признак предмета по его действию", "самостоятельная часть речи, которая обозначает количество и порядок предметов при счете."], "c": [0]}, {"n": 188, "q": "В каком ряду прилагательные не имеют краткой формы:", "o": ["гибкий, тонкий, могучий", "великий, тягучий, душистый", "добрый, злой, милый", "деревянный, материн, боевой"], "c": [3]}, {"n": 189, "q": "Какие разряды прилагательных существуют:", "o": ["количественные, притяжательные, относительные", "отглагольные, количественные, притяжательные", "качественные, относительные, притяжательные", "качественные, относительные, притяжательные"], "c": [2, 3]}, {"n": 190, "q": "Имя числительное – это:", "o": ["самостоятельная часть речи, которая обозначает признак предмета", "самостоятельная часть речи, которая обозначает признаки действия", "самостоятельная часть речи, которая обозначает признак предмета по его действию", "самостоятельная часть речи, которая обозначает количество и порядок предметов при счете."], "c": [3]}, {"n": 191, "q": "Укажите, в каком предложении есть числительные:", "o": ["Получив тройку, ученик расстроился.", "После встречи у него осталось двойственное чувство.", "Впервые ему довелось побывать во Франции.", "Она, безрезультатно прождав двадцать минут, была вынуждена уйти."], "c": [3]}, {"n": 192, "q": "Это самостоятельная часть речи, которая указывает на лицо, предмет, признак, количество, содержит вопрос, но не называет его:", "o": ["местоимение", "имя существительное", "имя прилагательное", "наречие"], "c": [0]}, {"n": 193, "q": "Каких разрядов местоимений не существует:", "o": ["личные", "повелительные", "вопросительные", "относительные"], "c": [1]}, {"n": 194, "q": "С какими частями речи соотносятся местоимения:", "o": ["с именами существительными", "с именами прилагательными", "с именами числительными", "со всеми вышеназванными"], "c": [3]}, {"n": 195, "q": "Укажите, в каких рядах все существительные одушевленные:", "o": ["подмастерье, жеребец, идол;", "стая, пролетариат, сирота;", "грач, бактерия, народ;", "нищий, шаман, дракон."], "c": [0, 3]}, {"n": 196, "q": "Выбери имя существительное в форме творительного падежа:", "o": ["помощь", "книгу", "карандашом", "на крыльце"], "c": [2]}, {"n": 197, "q": "Отметь имя прилагательное в предложении; В эти осенние дни птицы готовятся к отлёту:", "o": ["эти", "осенние", "птицы", "готовятся"], "c": [1]}, {"n": 198, "q": "Определи время глагола в предложении Дверь мне открыл Володька:", "o": ["настоящее", "прошедшее", "будущее", "вечернее"], "c": [1]}, {"n": 199, "q": "Укажи ряд слов, где указаны только части речи?", "o": ["существительное, прилагательное, окончание;", "глагол, сказуемое, числительное;", "прилагательное, глагол, существительное;", "существительное, определение, прилагательное."], "c": [2]}, {"n": 200, "q": "Укажи словосочетание, в котором имя прилагательное употреблено в форме множ. числа родительного падежа:", "o": ["волшебных фонариков", "красный снегирь", "тихими вечерами", "солнечному дню"], "c": [0]}]</script>
+<script>
+const PRISTINE='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+const LET=['А','Б','В','Г'];
+const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=s=>esc(s).replace(/&lt;u&gt;(.*?)&lt;\/u&gt;/g,'<u>$1</u>').replace(/\.{3,}|…|_{2,}/g,m=>m);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---------- Question bank (original data + local edits) ---------- */
+const RAW=document.getElementById('bankData').textContent;
+const ORIG=JSON.parse(RAW).map(x=>({id:String(x.n),q:x.q,o:x.o.slice(),c:x.c.slice()}));
+const BASE=new Map(ORIG.map(x=>[x.id,x]));
+function sig(s){let h=5381;for(let k=0;k<s.length;k++)h=((h<<5)+h+s.charCodeAt(k))|0;return h+':'+s.length}
+const SIG=sig(RAW);
+let BANK=[];
+function loadBank(){let items=null;try{const r=JSON.parse(store.get('rt-bank')||'null');if(r&&r.sig===SIG&&Array.isArray(r.items)&&r.items.length)items=r.items}catch(e){}
+ BANK=(items||ORIG).map((x,k)=>({id:x.id,n:k+1,q:x.q,o:x.o.slice(),c:x.c.slice()}))}
+const saveBank=()=>store.set('rt-bank',JSON.stringify({sig:SIG,items:BANK.map(({id,q,o,c})=>({id,q,o,c}))}));
+const renum=()=>BANK.forEach((x,k)=>x.n=k+1);
+loadBank();
+
+/* ---------- Translations ---------- */
+const I18N={
+en:{title:'Final Exam',subtitle:'Amaliy rus tili · Practical Russian · 1st-year final test · {0} questions',
+modeA:'Mode A: Full test',modeAd:'All questions in the original order.',goFull:'Start full test',
+modeB:'Mode B: Custom random test',modeBd:'Pick how many questions you want. They are chosen randomly and shuffled.',range:'questions (1–{0})',goRand:'Start random test',
+instant:'Show correct answer immediately after each question',errCount:'Enter a whole number from 1 to {0}.',
+back:'Back',next:'Next',finish:'Finish',quit:'Quit to menu',quitQ:'Quit this test? Progress will be lost.',pos:'Question {0} / {1}',
+unans:'{0} question(s) unanswered. Finish anyway?',
+yourResult:'Your result',correct:'correct',wrong:'wrong',skipped:'skipped',newTest:'New test',retry:'Retry mistakes',
+fAll:'All',fWrong:'Wrong / skipped',fCorrect:'Correct',saved:'Result saved to your profile history.',
+outOf:'{0} out of {1}',p1:'Excellent!',p2:'Good job!',p3:'Not bad, keep practising.',p4:'Keep practising, you can do it!',
+yourAns:'Your answer',corrAns:'Correct answer',corrAnsP:'Correct answers',skip:'Skipped',nothing:'Nothing to show here.',
+mode_full:'Full test',mode_random:'Random test',mode_retry:'Retry mistakes',
+sPh:'Search in all questions and options',sRes:'{0} result(s)',sNone:'No results',sEmpty:'Nothing found. Try a shorter word.',tNum:'Number',tQ:'Question',tOpt:'Option {0}',
+welcome:'Welcome',editT:'Edit profile',newT:'New profile',setupSub:'Enter your details once. Your results will be saved on this device.',
+fName:'Full name',fGroup:'Academic group',eName:'Enter your full name.',eGroup:'Enter your academic group.',save:'Save and continue',cancel:'Cancel',
+editProfile:'Edit profile',group:'Group: {0}',attempts:'Attempts',average:'Average',best:'Best score',history:'Test history',
+hDate:'Date',hMode:'Mode',hTotal:'Total',hCorrect:'Correct',hWrong:'Wrong',hSkipped:'Skipped',hScore:'Score',noTests:'No completed tests yet.',
+clearH:'Clear history',clearQ:'Clear all test history for this profile?',profiles:'Profiles',addProfile:'Add new profile',active:'Active',sw:'Switch',
+delQ:'Delete profile "{0}" and all of its history?',att1:'{0} attempt',attN:'{0} attempts',
+admTitle:'Admin panel',admSub:'{0} questions · {1} modified · {2} new · {3} deleted',admNote:'Changes are saved on this device only. To update the site for students, download the updated site and use it as index.html.',admBack:'Exit admin',
+addQ:'Add question',dlSite:'Download updated site',expJson:'Export JSON',impJson:'Import JSON',resetAll:'Restore original',resetAllQ:'Discard all edits and restore the original questions?',
+impQ:'Replace all questions with the file contents ({0} questions)?',impErr:'Invalid file format.',
+pinLbl:'PIN',pinEnter:'Enter',pinWrong:'Wrong PIN.',pinPh:'New PIN (4+ characters)',pinSet:'Set PIN',pinOff:'Remove PIN',pinShort:'PIN must be at least 4 characters.',pinSaved:'PIN saved.',pinRemoved:'PIN removed.',
+aSqPh:'Search questions and options to edit',fMod:'Modified',fFlag:'To check',tagMod:'Modified',tagNew:'New',ansLbl:'Answer: {0}',aFlag:'Mark for check',
+editQ:'Edit question {0}',newQ:'New question',lblQ:'Question text',lblOpt:'Option {0}',lblCorr:'Correct',eSave:'Save',eSaveNext:'Save and next',eBack:'Back to list',eDel:'Delete question',eReset:'Restore original',eFlagT:'Mark for check',
+errQ:'Question text cannot be empty.',errOpt:'Fill in all four options.',errCorr:'Select at least one correct answer.',aSaved:'Saved.',aDeleted:'Question deleted.',aRestored:'Original restored.',aImported:'Imported {0} questions.',aAdded:'Question added.',delQ2:'Delete question {0}? This cannot be undone.',
+aProfile:'Student profile',aExit:'Exit profile',aSearch:'Search all questions',aFMinus:'Decrease font size',aFPlus:'Increase font size',aTheme:'Toggle theme',aDel:'Delete profile'},
+ru:{title:'Итоговый экзамен',subtitle:'Amaliy rus tili · Практический русский язык · итоговый тест, 1 курс · вопросов: {0}',
+modeA:'Режим A: Полный тест',modeAd:'Все вопросы в исходном порядке.',goFull:'Начать полный тест',
+modeB:'Режим B: Случайный тест',modeBd:'Выберите количество вопросов. Они выбираются случайно и перемешиваются.',range:'вопросов (1–{0})',goRand:'Начать случайный тест',
+instant:'Показывать правильный ответ сразу после каждого вопроса',errCount:'Введите целое число от 1 до {0}.',
+back:'Назад',next:'Далее',finish:'Завершить',quit:'Выйти в меню',quitQ:'Выйти из теста? Прогресс будет потерян.',pos:'Вопрос {0} / {1}',
+unans:'Вопросов без ответа: {0}. Всё равно завершить?',
+yourResult:'Ваш результат',correct:'верно',wrong:'неверно',skipped:'пропущено',newTest:'Новый тест',retry:'Работа над ошибками',
+fAll:'Все',fWrong:'Ошибки и пропуски',fCorrect:'Верные',saved:'Результат сохранён в истории профиля.',
+outOf:'{0} из {1}',p1:'Отлично!',p2:'Хорошо!',p3:'Неплохо, продолжайте практиковаться.',p4:'Продолжайте практиковаться, у вас получится!',
+yourAns:'Ваш ответ',corrAns:'Правильный ответ',corrAnsP:'Правильные ответы',skip:'Пропущено',nothing:'Здесь пока ничего нет.',
+mode_full:'Полный тест',mode_random:'Случайный тест',mode_retry:'Работа над ошибками',
+sPh:'Поиск по всем вопросам и вариантам',sRes:'Найдено: {0}',sNone:'Ничего не найдено',sEmpty:'Ничего не найдено. Попробуйте более короткое слово.',tNum:'Номер',tQ:'Вопрос',tOpt:'Вариант {0}',
+welcome:'Добро пожаловать',editT:'Редактирование профиля',newT:'Новый профиль',setupSub:'Введите данные один раз. Результаты будут сохраняться на этом устройстве.',
+fName:'Фамилия и имя',fGroup:'Учебная группа',eName:'Введите фамилию и имя.',eGroup:'Введите учебную группу.',save:'Сохранить и продолжить',cancel:'Отмена',
+editProfile:'Изменить профиль',group:'Группа: {0}',attempts:'Попытки',average:'Средний балл',best:'Лучший результат',history:'История тестов',
+hDate:'Дата',hMode:'Режим',hTotal:'Всего',hCorrect:'Верно',hWrong:'Неверно',hSkipped:'Пропущено',hScore:'Результат',noTests:'Пройденных тестов пока нет.',
+clearH:'Очистить историю',clearQ:'Очистить всю историю тестов этого профиля?',profiles:'Профили',addProfile:'Добавить профиль',active:'Активный',sw:'Выбрать',
+delQ:'Удалить профиль «{0}» и всю его историю?',att1:'{0} попытка',att2:'{0} попытки',attN:'{0} попыток',
+admTitle:'Панель администратора',admSub:'Вопросов: {0} · изменено: {1} · новых: {2} · удалено: {3}',admNote:'Изменения сохраняются только на этом устройстве. Чтобы обновить сайт для студентов, скачайте обновлённый сайт и используйте его как index.html.',admBack:'Выйти из админки',
+addQ:'Добавить вопрос',dlSite:'Скачать обновлённый сайт',expJson:'Экспорт JSON',impJson:'Импорт JSON',resetAll:'Вернуть исходные',resetAllQ:'Отменить все изменения и вернуть исходные вопросы?',
+impQ:'Заменить все вопросы содержимым файла (вопросов: {0})?',impErr:'Неверный формат файла.',
+pinLbl:'PIN-код',pinEnter:'Войти',pinWrong:'Неверный PIN-код.',pinPh:'Новый PIN-код (от 4 символов)',pinSet:'Задать PIN',pinOff:'Убрать PIN',pinShort:'PIN-код должен содержать не менее 4 символов.',pinSaved:'PIN-код сохранён.',pinRemoved:'PIN-код удалён.',
+aSqPh:'Поиск вопросов и вариантов для правки',fMod:'Изменённые',fFlag:'На проверку',tagMod:'Изменён',tagNew:'Новый',ansLbl:'Ответ: {0}',aFlag:'Отметить для проверки',
+editQ:'Редактирование вопроса {0}',newQ:'Новый вопрос',lblQ:'Текст вопроса',lblOpt:'Вариант {0}',lblCorr:'Верный',eSave:'Сохранить',eSaveNext:'Сохранить и далее',eBack:'К списку',eDel:'Удалить вопрос',eReset:'Вернуть исходный',eFlagT:'Отметить для проверки',
+errQ:'Текст вопроса не может быть пустым.',errOpt:'Заполните все четыре варианта.',errCorr:'Выберите хотя бы один верный ответ.',aSaved:'Сохранено.',aDeleted:'Вопрос удалён.',aRestored:'Исходный вариант восстановлен.',aImported:'Импортировано вопросов: {0}.',aAdded:'Вопрос добавлен.',delQ2:'Удалить вопрос {0}? Это действие нельзя отменить.',
+aProfile:'Профиль студента',aExit:'Выйти из профиля',aSearch:'Поиск по вопросам',aFMinus:'Уменьшить шрифт',aFPlus:'Увеличить шрифт',aTheme:'Сменить тему',aDel:'Удалить профиль'}
+};
+let lang=store.get('rt-lang');
+if(lang!=='en'&&lang!=='ru')lang=(navigator.language||'').toLowerCase().startsWith('en')?'en':'ru';
+const t=(k,...a)=>(I18N[lang][k]||I18N.en[k]||k).replace(/\{(\d)\}/g,(m,i)=>a[i]);
+function plAttempts(n){if(lang==='en')return t(n===1?'att1':'attN',n);const m10=n%10,m100=n%100;return t(m10===1&&m100!==11?'att1':(m10>=2&&m10<=4&&(m100<12||m100>14))?'att2':'attN',n)}
+
+/* ---------- State ---------- */
+let set=[],ans=[],i=0,label='full',instant=true,filter='all',cur='start',beforeSearch='start',beforeProfile='start',lastRes=null;
+const isOk=(x,a)=>a!==null&&x.c.includes(a);
+
+/* ---------- Theme and font ---------- */
+$('bTheme').onclick=()=>{const v=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',v);store.set('rt-theme',v)};
+const SIZES=[.85,1,1.15,1.3,1.5];let si=SIZES.indexOf(parseFloat(store.get('rt-fs')));if(si<0)si=1;
+function applyFs(){document.documentElement.style.setProperty('--fs',SIZES[si]);$('fMinus').disabled=si===0;$('fPlus').disabled=si===SIZES.length-1;store.set('rt-fs',SIZES[si])}
+$('fMinus').onclick=()=>{if(si>0){si--;applyFs()}};$('fPlus').onclick=()=>{if(si<SIZES.length-1){si++;applyFs()}};applyFs();
+
+/* ---------- Navigation ---------- */
+const show=id=>{if(!me()&&id!=='setup'){openSetup(null);return}
+ ['start','quiz','result','search','setup','profile','admin','aedit'].forEach(s=>$(s).hidden=s!==id);cur=id;
+ $('bSearch').classList.toggle('on',id==='search');$('bProfile').classList.toggle('on',id==='profile');
+ $('bProfile').setAttribute('aria-label',t(id==='profile'?'aExit':'aProfile'));
+ const lock=id==='quiz'||id==='setup'||id==='admin'||id==='aedit';$('bSearch').hidden=lock;$('bProfile').hidden=lock;
+ if(id==='start')updateWho();if(id==='profile')renderProfile();if(id==='admin')renderAdmin()};
+function shuffle(a){a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
+
+/* ---------- Language ---------- */
+function applyLang(){
+ document.documentElement.lang=lang;document.title=t('title');$('lgTxt').textContent=lang.toUpperCase();
+ document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));
+ document.querySelectorAll('[data-ph]').forEach(e=>e.placeholder=t(e.dataset.ph));
+ document.querySelectorAll('[data-al]').forEach(e=>e.setAttribute('aria-label',t(e.dataset.al)));
+ $('bLang').setAttribute('aria-label',lang==='ru'?'Language: Русский':'Language: English');
+ buildStart();
+ $('bProfile').setAttribute('aria-label',t(cur==='profile'?'aExit':'aProfile'));
+ if(cur==='start')updateWho();
+ if(cur==='quiz')render();
+ if(cur==='result'){resultText();review()}
+ if(cur==='profile')renderProfile();
+ if(cur==='search')runSearch();
+ if(cur==='setup')setupTexts();
+ if(cur==='admin')renderAdmin();
+ if(cur==='aedit')editTexts();
+}
+$('bLang').onclick=()=>{lang=lang==='ru'?'en':'ru';store.set('rt-lang',lang);applyLang()};
+
+/* ---------- Start screen ---------- */
+function buildStart(){$('cnt').max=BANK.length;$('chips').innerHTML='';
+ [10,20,30,50,100].filter(n=>n<=BANK.length).forEach(n=>{const b=document.createElement('button');b.className='chip';b.textContent=n;b.onclick=()=>$('cnt').value=n;$('chips').appendChild(b)});
+ $('sub').textContent=t('subtitle',BANK.length);$('rng').textContent=t('range',BANK.length)}
+$('goFull').onclick=()=>begin(BANK.slice(),'full');
+$('goRand').onclick=()=>{const n=parseInt($('cnt').value,10);
+ if(!Number.isInteger(n)||n<1||n>BANK.length){$('err').textContent=t('errCount',BANK.length);return}
+ $('err').textContent='';begin(shuffle(BANK).slice(0,n),'random')};
+
+/* ---------- Quiz ---------- */
+/* ans[i] = original option index (0-3); the displayed letter is its position in x.ord */
+function begin(list,name){set=list.map(x=>({...x,ord:shuffle([0,1,2,3])}));ans=new Array(set.length).fill(null);i=0;label=name;instant=$('instant').checked;show('quiz');
+ $('dots').innerHTML='';set.forEach((_,k)=>{const d=document.createElement('button');d.className='dot';d.textContent=k+1;d.onclick=()=>{i=k;render()};$('dots').appendChild(d)});render();window.scrollTo(0,0)}
+function render(){const x=set[i],a=ans[i],locked=instant&&a!==null;
+ $('mode').textContent=t('mode_'+label);$('pos').textContent=t('pos',i+1,set.length);
+ $('pb').style.width=(ans.filter(v=>v!==null).length/set.length*100)+'%';
+ $('qt').innerHTML=fmt(x.q);
+ $('opts').innerHTML=x.ord.map((k,p)=>{let c='o';if(locked){if(x.c.includes(k))c+=' ok';else if(k===a)c+=' no'}else if(k===a)c+=' sel';
+  return `<button class="${c}" data-k="${k}" ${locked?'disabled':''}><b>${LET[p]})</b><span>${fmt(x.o[k])}</span></button>`}).join('');
+ $('opts').querySelectorAll('.o').forEach(b=>b.onclick=()=>{ans[i]=+b.dataset.k;render()});
+ $('prev').disabled=i===0;$('next').textContent=t(i===set.length-1?'finish':'next');
+ $('dots').querySelectorAll('.dot').forEach((d,k)=>{d.className='dot'+(ans[k]===null?'':instant?(isOk(set[k],ans[k])?' ok':' no'):' a')+(k===i?' c':'')})}
+function goNext(){if(i<set.length-1){i++;render();return}
+ const left=ans.filter(v=>v===null).length;
+ if(left&&!confirm(t('unans',left)))return;finish()}
+$('prev').onclick=()=>{if(i>0){i--;render()}};
+$('next').onclick=goNext;
+$('quit').onclick=()=>{if(confirm(t('quitQ')))show('start')};
+
+/* ---------- Result ---------- */
+function resultText(){if(!lastRes)return;const{c,w,s,p,n,saved}=lastRes;
+ $('pct').textContent=p+'%';$('nc').textContent=c;$('nw').textContent=w;$('ns').textContent=s;
+ $('msg').textContent=t('outOf',c,n)+' · '+t(p>=86?'p1':p>=71?'p2':p>=56?'p3':'p4');
+ $('saved').textContent=saved?t('saved'):'';$('retryW').hidden=(w+s)===0}
+function finish(){let c=0,w=0,s=0;ans.forEach((a,k)=>{if(a===null)s++;else if(isOk(set[k],a))c++;else w++});
+ const p=Math.round(c/set.length*100),pr=me();let saved=false;
+ if(pr){pr.history.push({t:Date.now(),mode:label,total:set.length,c,w,s,p});saveDB();saved=true}
+ lastRes={c,w,s,p,n:set.length,saved};resultText();filter='all';review();show('result');window.scrollTo(0,0)}
+function uniq(a){return a.filter((v,k)=>a.indexOf(v)===k)}
+function review(){$('review').innerHTML=set.map((x,k)=>{const a=ans[k],ok=isOk(x,a);if(filter==='w'&&ok)return'';if(filter==='c'&&!ok)return'';
+ const corr=uniq(x.c.map(j=>x.o[j]));
+ return `<div class="rv ${ok?'c':'w'}"><p>${k+1}. ${fmt(x.q)}</p>
+ <div>${t('yourAns')}: <b class="${ok?'g':'r'}">${a!==null?fmt(x.o[a]):t('skip')}</b></div>
+ ${ok?'':`<div>${t(corr.length>1?'corrAnsP':'corrAns')}: <b class="g">${corr.map(fmt).join(' / ')}</b></div>`}</div>`}).join('')||`<div class="empty">${t('nothing')}</div>`}
+document.querySelectorAll('.tabs .chip').forEach(b=>b.onclick=()=>{filter=b.dataset.f;review()});
+$('again').onclick=()=>show('start');
+$('retryW').onclick=()=>begin(set.filter((x,k)=>!isOk(x,ans[k])),'retry');
+
+/* ---------- Keyboard ---------- */
+document.addEventListener('keydown',e=>{
+ if(cur!=='quiz'||e.ctrlKey||e.metaKey||e.altKey)return;
+ const tg=e.target;if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'))return;
+ const k=e.key;
+ if(k==='ArrowRight'){e.preventDefault();if(i<set.length-1){i++;render()}}
+ else if(k==='ArrowLeft'){e.preventDefault();if(i>0){i--;render()}}
+ else if(/^[1-4]$/.test(k)){e.preventDefault();if(instant&&ans[i]!==null)return;ans[i]=set[i].ord[+k-1];render()}
+ else if(k==='Enter'&&i===set.length-1){e.preventDefault();if(document.activeElement)document.activeElement.blur();goNext()}
+});
+
+/* ---------- Profiles (localStorage) ---------- */
+let DB={profiles:[],active:null};
+try{const r=JSON.parse(store.get('rt-db')||'null');if(r&&Array.isArray(r.profiles))DB=r}catch(e){}
+DB.profiles.forEach(p=>{if(!Array.isArray(p.history))p.history=[]});
+const saveDB=()=>store.set('rt-db',JSON.stringify(DB));
+const me=()=>DB.profiles.find(p=>p.id===DB.active)||null;
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const ICON_TRASH='<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5"/></svg>';
+const ICON_USER='<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>';
+let setupEdit=null,setupFirst=false;
+function updateWho(){const p=me();$('who').innerHTML=p?ICON_USER+'<span>'+esc(p.name)+' · '+esc(p.group)+'</span>':''}
+function setupTexts(){$('setupTitle').textContent=t(setupEdit?'editT':(setupFirst?'welcome':'newT'));$('setupSub').textContent=setupFirst?t('setupSub'):''}
+function openSetup(editId){setupEdit=editId;setupFirst=DB.profiles.length===0;
+ const p=editId?DB.profiles.find(x=>x.id===editId):null;
+ $('pName').value=p?p.name:'';$('pGroup').value=p?p.group:'';$('pErr').textContent='';
+ $('pCancel').hidden=!DB.profiles.length;
+ show('setup');setupTexts();$('pName').focus()}
+function saveSetup(){const n=$('pName').value.trim().replace(/\s+/g,' '),g=$('pGroup').value.trim();
+ if(n.length<2){$('pErr').textContent=t('eName');return}
+ if(!g){$('pErr').textContent=t('eGroup');return}
+ if(setupEdit){const p=DB.profiles.find(x=>x.id===setupEdit);p.name=n;p.group=g}
+ else{const p={id:uid(),name:n,group:g,history:[]};DB.profiles.push(p);DB.active=p.id}
+ saveDB();show(setupFirst?'start':'profile')}
+$('pSave').onclick=saveSetup;
+$('pCancel').onclick=()=>show(me()?'profile':'start');
+[$('pName'),$('pGroup')].forEach(e=>e.addEventListener('keydown',k=>{if(k.key==='Enter'){k.preventDefault();saveSetup()}}));
+$('bProfile').onclick=()=>{if(cur==='profile'){show(beforeProfile);return}beforeProfile=cur;show('profile')};
+$('pEdit').onclick=()=>openSetup(DB.active);
+$('pNew').onclick=()=>openSetup(null);
+function fmtDate(ts){const d=new Date(ts),z=n=>String(n).padStart(2,'0');return z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' '+z(d.getHours())+':'+z(d.getMinutes())}
+function modeName(m){return I18N.en['mode_'+m]?t('mode_'+m):m}
+function renderProfile(){const p=me();if(!p)return;
+ const ini=p.name.split(' ').filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+ $('pAv').textContent=ini;$('pTitle').textContent=p.name;$('pGrp').textContent=t('group',p.group);
+ const H=p.history,n=H.length;
+ $('kA').textContent=n;$('kAvg').textContent=n?Math.round(H.reduce((a,r)=>a+r.p,0)/n)+'%':'-';$('kBest').textContent=n?Math.max(...H.map(r=>r.p))+'%':'-';
+ $('hClear').hidden=!n;
+ $('hist').innerHTML=n?'<div class="sc"><table><thead><tr>'+['hDate','hMode','hTotal','hCorrect','hWrong','hSkipped','hScore'].map(k=>'<th>'+t(k)+'</th>').join('')+'</tr></thead><tbody>'+
+  H.slice().reverse().map(r=>`<tr><td>${fmtDate(r.t)}</td><td>${esc(modeName(r.mode))}</td><td>${r.total}</td><td>${r.c}</td><td>${r.w}</td><td>${r.s}</td><td><span class="pill ${r.p>=71?'ok':r.p>=56?'mid':'no'}">${r.p}%</span></td></tr>`).join('')+'</tbody></table></div>'
+  :`<div class="card empty">${t('noTests')}</div>`;
+ $('plist').innerHTML=DB.profiles.map(q=>`<div class="prow"><div><b>${esc(q.name)}</b><span class="mu">${esc(q.group)} · ${plAttempts(q.history.length)}</span></div>
+  ${q.id===DB.active?`<span class="tag">${t('active')}</span>`:`<button class="btn sec sm" data-act="sw" data-id="${q.id}">${t('sw')}</button>`}
+  <button class="ib" style="width:36px;height:36px" data-act="del" data-id="${q.id}" aria-label="${t('aDel')}">${ICON_TRASH}</button></div>`).join('')}
+$('plist').onclick=e=>{const b=e.target.closest('button[data-act]');if(!b)return;const id=b.dataset.id;
+ if(b.dataset.act==='sw'){DB.active=id;saveDB();renderProfile()}
+ else{const q=DB.profiles.find(x=>x.id===id);if(!confirm(t('delQ',q.name)))return;
+  DB.profiles=DB.profiles.filter(x=>x.id!==id);if(DB.active===id)DB.active=DB.profiles.length?DB.profiles[0].id:null;saveDB();
+  if(!DB.profiles.length){openSetup(null)}else renderProfile()}};
+$('hClear').onclick=()=>{if(confirm(t('clearQ'))){me().history=[];saveDB();renderProfile()}};
+
+/* ---------- Global search ---------- */
+const norm=s=>s.toLowerCase().replace(/ё/g,'е').replace(/[\u2018\u2019\u02bb\u02bc\u02b9`\u00b4]/g,"'");
+function hl(text,terms){text=plain(text);if(!terms.length)return fmt(text);const n=norm(text),r=[];
+ terms.forEach(tm=>{let p=0;while((p=n.indexOf(tm,p))>-1){r.push([p,p+tm.length]);p+=tm.length}});
+ if(!r.length)return fmt(text);r.sort((a,b)=>a[0]-b[0]);const m=[r[0].slice()];
+ for(const q of r.slice(1)){const l=m[m.length-1];if(q[0]<=l[1])l[1]=Math.max(l[1],q[1]);else m.push(q.slice())}
+ let o='',p=0;m.forEach(([s,e])=>{o+=esc(text.slice(p,s))+'<mark>'+esc(text.slice(s,e))+'</mark>';p=e});return o+esc(text.slice(p))}
+$('bSearch').onclick=()=>{if(cur==='search'){show(beforeSearch);return}beforeSearch=cur;show('search');$('sq').focus();runSearch()};
+let tmr;$('sq').addEventListener('input',()=>{clearTimeout(tmr);tmr=setTimeout(runSearch,120)});
+function runSearch(){const raw=$('sq').value.trim();
+ if(!raw){$('sinfo').textContent='';$('slist').innerHTML='';return}
+ const terms=norm(raw).split(/\s+/).filter(Boolean),found=[];
+ BANK.forEach(x=>{const f=[['q',norm(plain(x.q))],...x.o.map((o,k)=>[k,norm(plain(o))])];
+  const all=f.map(v=>v[1]).join(' | ');
+  const num=terms.length===1&&/^\d+$/.test(terms[0])&&+terms[0]===x.n;
+  if(!num&&!terms.every(tm=>all.includes(tm)))return;
+  const hits=new Set(),where=[];f.forEach(([k,s])=>{if(terms.some(tm=>s.includes(tm)))hits.add(k)});
+  if(num)where.push(t('tNum'));if(hits.has('q'))where.push(t('tQ'));[0,1,2,3].forEach(k=>{if(hits.has(k))where.push(t('tOpt',LET[k]))});
+  found.push({x,hits,where})});
+ $('sinfo').textContent=found.length?t('sRes',found.length):t('sNone');
+ $('slist').innerHTML=found.length?found.map(({x,hits,where})=>`<div class="card" style="margin-bottom:10px;padding:14px 16px">
+  <div class="q" style="font-size:1.05rem">${x.n}. ${hl(x.q,terms)}</div>
+  ${x.o.map((o,k)=>`<div class="so${x.c.includes(k)?' ok':''}${hits.has(k)?' hit':''}"><b>${LET[k]})</b> ${hl(o,terms)}</div>`).join('')}
+  <div class="mu" style="margin-top:10px">${where.map(w=>'<span class="tag">'+w+'</span>').join('')}</div></div>`).join(''):`<div class="empty">${t('sEmpty')}</div>`}
+
+/* ---------- Admin panel ---------- */
+const plain=s=>s.replace(/<\/?u>/g,'');
+let admUnlocked=false,admFilter='all',admEdit=-1,admFlags=[];
+try{admFlags=JSON.parse(store.get('rt-flags')||'[]')}catch(e){}
+const saveFlags=()=>store.set('rt-flags',JSON.stringify(admFlags));
+const BMARK='<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>';
+let tapN=0,tapT=0;
+$('title1').addEventListener('click',()=>{const now=Date.now();tapN=now-tapT<1500?tapN+1:1;tapT=now;if(tapN>=5){tapN=0;if(cur==='start')show('admin')}});
+function leaveAdmin(){admUnlocked=false;try{if(location.hash==='#admin')history.replaceState(null,'',location.pathname+location.search)}catch(e){}show('start')}
+$('aExit').onclick=leaveAdmin;$('gExit').onclick=leaveAdmin;
+const pinHash=s=>sig('pin:'+s);
+function tryPin(){if(pinHash($('gIn').value)===store.get('rt-pin')){admUnlocked=true;$('gIn').value='';renderAdmin()}else $('gErr').textContent=t('pinWrong')}
+$('gGo').onclick=tryPin;$('gIn').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();tryPin()}});
+$('pinSet').onclick=()=>{const v=$('pinIn').value;if(v.length<4){$('aMsg').textContent=t('pinShort');return}store.set('rt-pin',pinHash(v));$('pinIn').value='';admUnlocked=true;renderAdmin();$('aMsg').textContent=t('pinSaved')};
+$('pinOff').onclick=()=>{store.set('rt-pin','');renderAdmin();$('aMsg').textContent=t('pinRemoved')};
+function modState(x){const b=BASE.get(x.id);if(!b)return'new';return(b.q===x.q&&b.o.join('\u0001')===x.o.join('\u0001')&&b.c.join()===x.c.join())?'':'mod'}
+function renderAdmin(){const pin=store.get('rt-pin'),gated=!!pin&&!admUnlocked;
+ $('aGate').hidden=!gated;$('aPanel').hidden=gated;if(gated){$('gErr').textContent='';return}
+ const mod=BANK.filter(x=>modState(x)==='mod').length,nw=BANK.filter(x=>modState(x)==='new').length;
+ const present=new Set(BANK.map(x=>x.id)),del=ORIG.filter(o=>!present.has(o.id)).length;
+ $('aSum').textContent=t('admSub',BANK.length,mod,nw,del);$('pinOff').hidden=!pin;
+ document.querySelectorAll('[data-af]').forEach(b=>b.classList.toggle('on',b.dataset.af===admFilter));
+ renderAList()}
+document.querySelectorAll('[data-af]').forEach(b=>b.onclick=()=>{admFilter=b.dataset.af;renderAdmin()});
+let atm;$('aSq').addEventListener('input',()=>{clearTimeout(atm);atm=setTimeout(renderAList,120)});
+function renderAList(){const raw=$('aSq').value.trim(),terms=raw?norm(plain(raw)).split(/\s+/).filter(Boolean):[];const out=[];
+ BANK.forEach((x,k)=>{const st=modState(x),fl=admFlags.includes(x.id);
+  if(admFilter==='mod'&&!st)return;if(admFilter==='flag'&&!fl)return;
+  if(terms.length){const all=norm(plain(x.q+' | '+x.o.join(' | ')));if(!terms.every(tm=>all.includes(tm))&&!(terms.length===1&&terms[0]===String(x.n)))return}
+  out.push(`<div class="arow" data-k="${k}"><span class="num">${x.n}</span><div class="at"><div class="aq">${esc(plain(x.q))}</div>
+  <div class="mu">${t('ansLbl',x.c.map(j=>LET[j]).join(', '))}${st==='mod'?' <span class="tag mod">'+t('tagMod')+'</span>':st==='new'?' <span class="tag nw">'+t('tagNew')+'</span>':''}</div></div>
+  <button class="ib fl${fl?' on':''}" data-flag="${k}" aria-label="${t('aFlag')}">${BMARK}</button></div>`)});
+ $('aList').innerHTML=out.join('')||`<div class="empty">${t('sNone')}</div>`}
+$('aList').onclick=e=>{const f=e.target.closest('[data-flag]');
+ if(f){const x=BANK[+f.dataset.flag];const p=admFlags.indexOf(x.id);if(p<0)admFlags.push(x.id);else admFlags.splice(p,1);saveFlags();renderAdmin();return}
+ const r=e.target.closest('.arow');if(r)openEditor(+r.dataset.k)};
+function editTexts(){$('eTitle').textContent=admEdit<0?t('newQ'):t('editQ',BANK[admEdit].n);for(let j=0;j<4;j++)$('eL'+j).textContent=t('lblOpt',LET[j])}
+function openEditor(k){admEdit=k;const x=k<0?{id:null,q:'',o:['','','',''],c:[]}:BANK[k];
+ $('eQ').value=x.q;for(let j=0;j<4;j++){$('eO'+j).value=x.o[j];$('eC'+j).checked=x.c.includes(j)}
+ $('eErr').textContent='';$('eDel').hidden=k<0;$('eFlag').hidden=k<0;$('eSaveNext').hidden=k<0;
+ $('eReset').hidden=k<0||!BASE.has(x.id)||!modState(x);
+ $('eFlag').classList.toggle('on',k>=0&&admFlags.includes(x.id));
+ show('aedit');editTexts();window.scrollTo(0,0)}
+function flash(msg){$('aMsg').textContent=msg}
+function saveEditor(next){const q=$('eQ').value.trim(),o=[0,1,2,3].map(j=>$('eO'+j).value.trim()),c=[0,1,2,3].filter(j=>$('eC'+j).checked);
+ if(!q){$('eErr').textContent=t('errQ');return}if(o.some(v=>!v)){$('eErr').textContent=t('errOpt');return}if(!c.length){$('eErr').textContent=t('errCorr');return}
+ let k=admEdit,added=false;
+ if(k<0){BANK.push({id:'u'+uid(),n:0,q,o,c});k=BANK.length-1;added=true}else Object.assign(BANK[k],{q,o,c});
+ renum();saveBank();buildStart();
+ if(next&&!added&&k<BANK.length-1){openEditor(k+1);return}
+ show('admin');flash(t(added?'aAdded':'aSaved'))}
+$('eSave').onclick=()=>saveEditor(false);$('eSaveNext').onclick=()=>saveEditor(true);
+$('eBack').onclick=()=>{show('admin');flash('')};
+$('eFlag').onclick=()=>{if(admEdit<0)return;const id=BANK[admEdit].id,p=admFlags.indexOf(id);if(p<0)admFlags.push(id);else admFlags.splice(p,1);saveFlags();$('eFlag').classList.toggle('on',p<0)};
+$('eReset').onclick=()=>{const x=BANK[admEdit],b=BASE.get(x.id);Object.assign(x,{q:b.q,o:b.o.slice(),c:b.c.slice()});saveBank();show('admin');flash(t('aRestored'))};
+$('eDel').onclick=()=>{if(!confirm(t('delQ2',BANK[admEdit].n)))return;BANK.splice(admEdit,1);renum();saveBank();buildStart();show('admin');flash(t('aDeleted'))};
+$('aAdd').onclick=()=>openEditor(-1);
+function download(name,text,type){const b=new Blob([text],{type});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},800)}
+function buildSite(){const json=JSON.stringify(BANK.map(({n,q,o,c})=>({n,q,o,c}))).replace(/</g,'\\u003c');
+ return PRISTINE.replace(/(<script id="bankData" type="application\/json">)[\s\S]*?(<\/script>)/,(m,a,b)=>a+json+b).replace(/(<html[^>]*?)data-theme="[^"]*"/,'$1data-theme="light"')}
+$('aSite').onclick=()=>download('index.html',buildSite(),'text/html');
+$('aExp').onclick=()=>download('questions.json',JSON.stringify(BANK.map(({id,q,o,c})=>({id,q,o,c})),null,1),'application/json');
+$('aImp').onclick=()=>$('aFile').click();
+$('aFile').addEventListener('change',()=>{const f=$('aFile').files&&$('aFile').files[0];if(!f)return;const rd=new FileReader();
+ rd.onload=()=>{try{const a=JSON.parse(rd.result);if(!Array.isArray(a)||!a.length)throw 0;const seen=new Set();
+  const nb=a.map((x,k)=>{if(!x||typeof x.q!=='string'||!x.q.trim()||!Array.isArray(x.o)||x.o.length!==4||x.o.some(v=>typeof v!=='string'||!v.trim()))throw 0;
+   let c=(Array.isArray(x.c)?x.c:[x.c]).map(Number).filter(j=>j>=0&&j<4);c=[...new Set(c)].sort();if(!c.length)throw 0;
+   let id=x.id!=null?String(x.id):'u'+uid();if(seen.has(id))id='u'+uid();seen.add(id);
+   return{id,n:k+1,q:x.q.trim(),o:x.o.map(v=>v.trim()),c}});
+  if(!confirm(t('impQ',nb.length)))return;BANK=nb;saveBank();buildStart();renderAdmin();flash(t('aImported',nb.length))}catch(e){flash(t('impErr'))}
+  $('aFile').value=''};rd.readAsText(f)});
+$('aRst').onclick=()=>{if(!confirm(t('resetAllQ')))return;store.set('rt-bank','');loadBank();buildStart();renderAdmin();flash(t('aRestored'))};
+window.addEventListener('hashchange',()=>{if(location.hash==='#admin'&&cur==='start')show('admin')});
+
+/* ---------- Init ---------- */
+if(!me()&&DB.profiles.length)DB.active=DB.profiles[0].id;
+if(me())show('start');else openSetup(null);
+applyLang();
+if(location.hash==='#admin'&&cur==='start')show('admin');
+</script></body></html>
