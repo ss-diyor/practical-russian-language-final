@@ -145,11 +145,12 @@ textarea{resize:vertical;min-height:80px}input[type=password]:focus,textarea:foc
 <div class="card"><div class="q" id="qt"></div><div id="opts"></div>
 <div class="nav"><button class="btn sec" id="prev" data-i="back"></button><button class="btn" id="next"></button></div></div>
 <div class="dots" id="dots"></div>
+<button class="btn sec full" id="finishHere" data-i="finishHere"></button>
 <button class="btn sec full" id="quit" data-i="quit"></button>
 </section>
 
 <section id="result" hidden="">
-<div class="card score"><div class="mu" data-i="yourResult"></div><div class="big" id="pct"></div><div id="msg" class="mu"></div><div id="saved" class="mu" style="margin-top:6px"></div>
+<div class="card score"><div class="mu" data-i="yourResult"></div><div class="big" id="pct"></div><div id="msg" class="mu"></div><div id="saved" class="mu" style="margin-top:6px"></div><div id="partial" class="mu" style="margin-top:6px"></div>
 <div class="stats">
 <div class="g"><span class="ic"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"></path></svg></span><span id="nc"></span> <span data-i="correct"></span></div>
 <div class="r"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></span><span id="nw"></span> <span data-i="wrong"></span></div>
@@ -297,7 +298,7 @@ pinLbl:'PIN',pinEnter:'Enter',pinWrong:'Wrong PIN.',pinPh:'New PIN (4+ character
 aSqPh:'Search questions and options to edit',fMod:'Modified',fFlag:'To check',tagMod:'Modified',tagNew:'New',ansLbl:'Answer: {0}',aFlag:'Mark for check',
 editQ:'Edit question {0}',newQ:'New question',lblQ:'Question text',lblOpt:'Option {0}',lblCorr:'Correct',eSave:'Save',eSaveNext:'Save and next',eBack:'Back to list',eDel:'Delete question',eReset:'Restore original',eFlagT:'Mark for check',
 errQ:'Question text cannot be empty.',errOpt:'Fill in all four options.',errCorr:'Select at least one correct answer.',aSaved:'Saved.',aDeleted:'Question deleted.',aRestored:'Original restored.',aImported:'Imported {0} questions.',aAdded:'Question added.',delQ2:'Delete question {0}? This cannot be undone.',
-noteTitle:'Update',aProfile:'Student profile',aExit:'Exit profile',aSearch:'Search all questions',aFMinus:'Decrease font size',aFPlus:'Increase font size',aTheme:'Toggle theme',aDel:'Delete profile'},
+noteTitle:'Update',finishHere:'Finish here',fhQ:'Finish here? Results will be based on the first {0} of {1} questions (up to your last answered question). Unanswered questions in this range count as skipped.',fhNone:'Answer at least one question first.',partialNote:'Finished early: results are based on the first {0} of {1} questions.',partialTag:'partial',aProfile:'Student profile',aExit:'Exit profile',aSearch:'Search all questions',aFMinus:'Decrease font size',aFPlus:'Increase font size',aTheme:'Toggle theme',aDel:'Delete profile'},
 ru:{title:'Итоговый экзамен',subtitle:'Amaliy rus tili · Практический русский язык · итоговый тест, 1 курс · вопросов: {0}',
 modeA:'Режим A: Полный тест',modeAd:'Все вопросы в исходном порядке.',goFull:'Начать полный тест',
 modeB:'Режим B: Случайный тест',modeBd:'Выберите количество вопросов. Они выбираются случайно и перемешиваются.',range:'вопросов (1–{0})',goRand:'Начать случайный тест',
@@ -323,7 +324,7 @@ pinLbl:'PIN-код',pinEnter:'Войти',pinWrong:'Неверный PIN-код.
 aSqPh:'Поиск вопросов и вариантов для правки',fMod:'Изменённые',fFlag:'На проверку',tagMod:'Изменён',tagNew:'Новый',ansLbl:'Ответ: {0}',aFlag:'Отметить для проверки',
 editQ:'Редактирование вопроса {0}',newQ:'Новый вопрос',lblQ:'Текст вопроса',lblOpt:'Вариант {0}',lblCorr:'Верный',eSave:'Сохранить',eSaveNext:'Сохранить и далее',eBack:'К списку',eDel:'Удалить вопрос',eReset:'Вернуть исходный',eFlagT:'Отметить для проверки',
 errQ:'Текст вопроса не может быть пустым.',errOpt:'Заполните все четыре варианта.',errCorr:'Выберите хотя бы один верный ответ.',aSaved:'Сохранено.',aDeleted:'Вопрос удалён.',aRestored:'Исходный вариант восстановлен.',aImported:'Импортировано вопросов: {0}.',aAdded:'Вопрос добавлен.',delQ2:'Удалить вопрос {0}? Это действие нельзя отменить.',
-noteTitle:'Обновление',aProfile:'Профиль студента',aExit:'Выйти из профиля',aSearch:'Поиск по вопросам',aFMinus:'Уменьшить шрифт',aFPlus:'Увеличить шрифт',aTheme:'Сменить тему',aDel:'Удалить профиль'}
+noteTitle:'Обновление',finishHere:'Завершить здесь',fhQ:'Завершить здесь? Результат будет посчитан по первым {0} из {1} вопросов (до последнего вопроса, на который вы ответили). Вопросы без ответа в этом диапазоне считаются пропущенными.',fhNone:'Сначала ответьте хотя бы на один вопрос.',partialNote:'Тест завершён досрочно: результат посчитан по первым {0} из {1} вопросов.',partialTag:'досрочно',aProfile:'Профиль студента',aExit:'Выйти из профиля',aSearch:'Поиск по вопросам',aFMinus:'Уменьшить шрифт',aFPlus:'Увеличить шрифт',aTheme:'Сменить тему',aDel:'Удалить профиль'}
 };
 let lang=store.get('rt-lang');
 if(lang!=='en'&&lang!=='ru')lang=(navigator.language||'').toLowerCase().startsWith('en')?'en':'ru';
@@ -390,33 +391,39 @@ function render(){const x=set[i],a=ans[i],locked=instant&&a!==null;
  $('opts').innerHTML=x.ord.map((k,p)=>{let c='o';if(locked){if(x.c.includes(k))c+=' ok';else if(k===a)c+=' no'}else if(k===a)c+=' sel';
   return `<button class="${c}" data-k="${k}" ${locked?'disabled':''}><b>${LET[p]})</b><span>${fmt(x.o[k])}</span></button>`}).join('');
  $('opts').querySelectorAll('.o').forEach(b=>b.onclick=()=>{ans[i]=+b.dataset.k;render()});
- $('prev').disabled=i===0;$('next').textContent=t(i===set.length-1?'finish':'next');
+ $('finishHere').disabled=ans.every(v=>v===null);$('prev').disabled=i===0;$('next').textContent=t(i===set.length-1?'finish':'next');
  $('dots').querySelectorAll('.dot').forEach((d,k)=>{d.className='dot'+(ans[k]===null?'':instant?(isOk(set[k],ans[k])?' ok':' no'):' a')+(k===i?' c':'')})}
 function goNext(){if(i<set.length-1){i++;render();return}
  const left=ans.filter(v=>v===null).length;
  if(left&&!confirm(t('unans',left)))return;finish()}
 $('prev').onclick=()=>{if(i>0){i--;render()}};
 $('next').onclick=goNext;
+$('finishHere').onclick=finishHere;
 $('quit').onclick=()=>{if(confirm(t('quitQ')))show('start')};
 
 /* ---------- Result ---------- */
-function resultText(){if(!lastRes)return;const{c,w,s,p,n,saved}=lastRes;
+function resultText(){if(!lastRes)return;const{c,w,s,p,n,saved,partial,of}=lastRes;
  $('pct').textContent=p+'%';$('nc').textContent=c;$('nw').textContent=w;$('ns').textContent=s;
  $('msg').textContent=t('outOf',c,n)+' · '+t(p>=86?'p1':p>=71?'p2':p>=56?'p3':'p4');
- $('saved').textContent=saved?t('saved'):'';$('retryW').hidden=(w+s)===0}
-function finish(){let c=0,w=0,s=0;ans.forEach((a,k)=>{if(a===null)s++;else if(isOk(set[k],a))c++;else w++});
- const p=Math.round(c/set.length*100),pr=me();let saved=false;
- if(pr){pr.history.push({t:Date.now(),mode:label,total:set.length,c,w,s,p});saveDB();saved=true}
- lastRes={c,w,s,p,n:set.length,saved};resultText();filter='all';review();show('result');window.scrollTo(0,0)}
+ $('saved').textContent=saved?t('saved'):'';$('partial').textContent=partial?t('partialNote',n,of):'';$('retryW').hidden=(w+s)===0}
+let resN=0;
+function finish(limit){const n=limit||set.length;let c=0,w=0,s=0;
+ for(let k=0;k<n;k++){const a=ans[k];if(a===null)s++;else if(isOk(set[k],a))c++;else w++}
+ const p=Math.round(c/n*100),pr=me(),partial=n<set.length;let saved=false;
+ if(pr){const rec={t:Date.now(),mode:label,total:n,c,w,s,p};if(partial){rec.partial=true;rec.of=set.length}pr.history.push(rec);saveDB();saved=true}
+ resN=n;lastRes={c,w,s,p,n,of:set.length,partial,saved};resultText();filter='all';review();show('result');window.scrollTo(0,0)}
+function finishHere(){let last=-1;ans.forEach((a,k)=>{if(a!==null)last=k});
+ if(last<0){alert(t('fhNone'));return}
+ const n=last+1;if(!confirm(t('fhQ',n,set.length)))return;finish(n>=set.length?0:n)}
 function uniq(a){return a.filter((v,k)=>a.indexOf(v)===k)}
-function review(){$('review').innerHTML=set.map((x,k)=>{const a=ans[k],ok=isOk(x,a);if(filter==='w'&&ok)return'';if(filter==='c'&&!ok)return'';
+function review(){$('review').innerHTML=set.slice(0,resN).map((x,k)=>{const a=ans[k],ok=isOk(x,a);if(filter==='w'&&ok)return'';if(filter==='c'&&!ok)return'';
  const corr=uniq(x.c.map(j=>x.o[j]));
  return `<div class="rv ${ok?'c':'w'}"><p>${k+1}. ${fmt(x.q)}</p>
  <div>${t('yourAns')}: <b class="${ok?'g':'r'}">${a!==null?fmt(x.o[a]):t('skip')}</b></div>
  ${ok?'':`<div>${t(corr.length>1?'corrAnsP':'corrAns')}: <b class="g">${corr.map(fmt).join(' / ')}</b></div>`}</div>`}).join('')||`<div class="empty">${t('nothing')}</div>`}
 document.querySelectorAll('.tabs .chip').forEach(b=>b.onclick=()=>{filter=b.dataset.f;review()});
 $('again').onclick=()=>show('start');
-$('retryW').onclick=()=>begin(set.filter((x,k)=>!isOk(x,ans[k])),'retry');
+$('retryW').onclick=()=>begin(set.filter((x,k)=>k<resN&&!isOk(x,ans[k])),'retry');
 
 /* ---------- Keyboard ---------- */
 document.addEventListener('keydown',e=>{
@@ -467,7 +474,7 @@ function renderProfile(){const p=me();if(!p)return;
  $('kA').textContent=n;$('kAvg').textContent=n?Math.round(H.reduce((a,r)=>a+r.p,0)/n)+'%':'-';$('kBest').textContent=n?Math.max(...H.map(r=>r.p))+'%':'-';
  $('hClear').hidden=!n;
  $('hist').innerHTML=n?'<div class="sc"><table><thead><tr>'+['hDate','hMode','hTotal','hCorrect','hWrong','hSkipped','hScore'].map(k=>'<th>'+t(k)+'</th>').join('')+'</tr></thead><tbody>'+
-  H.slice().reverse().map(r=>`<tr><td>${fmtDate(r.t)}</td><td>${esc(modeName(r.mode))}</td><td>${r.total}</td><td>${r.c}</td><td>${r.w}</td><td>${r.s}</td><td><span class="pill ${r.p>=71?'ok':r.p>=56?'mid':'no'}">${r.p}%</span></td></tr>`).join('')+'</tbody></table></div>'
+  H.slice().reverse().map(r=>`<tr><td>${fmtDate(r.t)}</td><td>${esc(modeName(r.mode))}${r.partial?' · '+t('partialTag'):''}</td><td>${r.partial?r.total+' / '+r.of:r.total}</td><td>${r.c}</td><td>${r.w}</td><td>${r.s}</td><td><span class="pill ${r.p>=71?'ok':r.p>=56?'mid':'no'}">${r.p}%</span></td></tr>`).join('')+'</tbody></table></div>'
   :`<div class="card empty">${t('noTests')}</div>`;
  $('plist').innerHTML=DB.profiles.map(q=>`<div class="prow"><div><b>${esc(q.name)}</b><span class="mu">${esc(q.group)} · ${plAttempts(q.history.length)}</span></div>
   ${q.id===DB.active?`<span class="tag">${t('active')}</span>`:`<button class="btn sec sm" data-act="sw" data-id="${q.id}">${t('sw')}</button>`}
